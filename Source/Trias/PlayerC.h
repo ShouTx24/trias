@@ -6,7 +6,9 @@
 #include "GameFramework/Character.h"
 #include "Components/InputComponent.h"
 #include "Engine/World.h"
+#include "Item.h"
 #include "GameFramework/PlayerController.h"
+#include "TriasGameInstance.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Engine/Public/DrawDebugHelpers.h"
 #include "Engine/Public/CollisionQueryParams.h"
@@ -28,13 +30,22 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UTriasGameInstance* TGI;
+
 	///Movement
 	void MoveForward(float);
 	void MoveRight(float);
 	void Turn(float);
 	void LookUp(float);
+	
+	UPROPERTY(EditAnywhere, Category = Inventory)
+	TArray<class AItem*>Fastbar;
+	UPROPERTY(BlueprintReadOnly, Category = Inventory)
+	int ActiveItem;
+	
+	void SlideItem(float AxisValue);
 	void InteractWith();
+	void PickUpItem(AItem* ItemToPick);
+	void UseItem();
 
-	///Logic Values
-	bool GetPlayerLookingAt(FHitResult &outHit, float reach);
 };

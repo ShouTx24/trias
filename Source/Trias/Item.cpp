@@ -29,6 +29,11 @@ void AItem::Interact()
 
 void AItem::PickedUp()
 {
-	this->Destroy();
+	RootComponent->DestroyComponent();
+	MeshComp->DestroyComponent();
+}
+
+void AItem::Use()
+{
 }
 

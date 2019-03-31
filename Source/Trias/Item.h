@@ -25,15 +25,14 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	virtual void Interact() override;
+	
 	FString ItemName;
 
-	UPROPERTY(EditAnywhere, Category = Item)
-		UStaticMesh* Mesh;
-	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
 	UStaticMeshComponent* MeshComp;
 
-
 	void PickedUp();
+
+	virtual void Use();
 
 };
