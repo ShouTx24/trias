@@ -30,7 +30,7 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UTriasGameInstance* TGI;
+	UTriasGameInstance* TGI = nullptr;
 
 	///Movement
 	void MoveForward(float);
@@ -38,8 +38,12 @@ public:
 	void Turn(float);
 	void LookUp(float);
 	
-	UPROPERTY(EditAnywhere, Category = Inventory)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Inventory)
 	TArray<class AItem*>Fastbar;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Inventory)
+	TArray<class AItem*>Inventory;
+	
 	UPROPERTY(BlueprintReadOnly, Category = Inventory)
 	int ActiveItem;
 	
