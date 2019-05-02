@@ -14,7 +14,6 @@ bool UTriasGameInstance::GetPlayerLookingAt(FHitResult & outHit, float reach)
 	FVector LineEnd = PlayerLocation + PlayerRotation.Vector() * reach;
 
 	FCollisionQueryParams TraceParams(FName("Name"), false, Player);
-	TraceParams.bTraceAsyncScene = true;
 	TraceParams.bReturnPhysicalMaterial = true;
 	TraceParams.AddIgnoredActor(Player);
 	return World->LineTraceSingleByChannel(OUT outHit, PlayerLocation, LineEnd, ECC_WorldStatic, TraceParams);
