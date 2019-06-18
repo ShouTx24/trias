@@ -37,6 +37,7 @@ void APlayerC::SetupPlayerInputComponent(UInputComponent* InputComponent)
 	InputComponent->BindAction("FirstAction", IE_Pressed, this, &APlayerC::UseItem);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
 }
 
 void APlayerC::MoveForward(float AxisValue)
