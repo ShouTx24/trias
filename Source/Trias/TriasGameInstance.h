@@ -18,6 +18,5 @@ class TRIAS_API UTriasGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 public:
-	void TestFun();
 	bool GetPlayerLookingAt(FHitResult & outHit, float reach);
 };

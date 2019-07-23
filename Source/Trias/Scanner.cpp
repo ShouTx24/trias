@@ -10,11 +10,11 @@ void AScanner::BeginPlay()
 
 void AScanner::Use()
 {
-	GLog->Log(GetName() + "is in use!");
+	GLog->Log(GetName() + " is in use!");
 	Scan();
 }
 
-AActor * AScanner::Scan()
+AActor* AScanner::Scan()
 {
 	FHitResult OUT Hit;
 	TGI->GetPlayerLookingAt(Hit,20000);

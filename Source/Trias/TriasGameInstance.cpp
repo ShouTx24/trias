@@ -18,8 +18,3 @@ bool UTriasGameInstance::GetPlayerLookingAt(FHitResult & outHit, float reach)
 	TraceParams.AddIgnoredActor(Player);
 	return World->LineTraceSingleByChannel(OUT outHit, PlayerLocation, LineEnd, ECC_WorldStatic, TraceParams);
 }
-
-void UTriasGameInstance::TestFun()
-{
-	GLog->Log("Fine, very fine");
-}

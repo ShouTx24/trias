@@ -64,14 +64,14 @@ void APlayerC::LookUp(float AxisValue)
 
 void APlayerC::SlideItem(float AxisValue)
 {
-	ActiveItem += AxisValue;
+	if(Fastbar.Num() > 0) ActiveItem += AxisValue;
 	if (ActiveItem > Fastbar.Num() - 1)
 	{
 		ActiveItem = 0;
 	}
 	else if (ActiveItem < 0)
 	{
-		ActiveItem = Fastbar.Num() -1;
+		ActiveItem = Fastbar.Num() - 1;
 	}
 }
 
@@ -87,7 +87,7 @@ void APlayerC::InteractWith()
 			{
 				AInteractiveObject* Object = Cast<AInteractiveObject>(HittenActor);
 
-				GLog->Log("Item is a " + Object->GetName());
+				GLog->Log("Item: " + Object->GetName());
 
 				if (Object->GetClass()->IsChildOf<AItem>())
 				{
@@ -96,7 +96,6 @@ void APlayerC::InteractWith()
 				}
 				Object->Interact();
 			}
-			else GLog->Log("Not a item, beacouse it is " + HittenActor->GetName());
 		}
 	}
 }
