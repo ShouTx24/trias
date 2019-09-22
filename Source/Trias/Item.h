@@ -28,6 +28,9 @@ public:
 	
 	FString ItemName;
 
+	UPROPERTY(BlueprintReadOnly)
+	FString ID;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
 	UStaticMeshComponent* MeshComp;
 

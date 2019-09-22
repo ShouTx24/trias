@@ -18,5 +18,6 @@ class TRIAS_API UTriasGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 public:
+	UFUNCTION(BlueprintCallable)
 	bool GetPlayerLookingAt(FHitResult & outHit, float reach);
 };

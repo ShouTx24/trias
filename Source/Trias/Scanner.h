@@ -19,5 +19,7 @@ class TRIAS_API AScanner : public ATools
 	virtual void Use() override;
 	
 	UTriasGameInstance* TGI = nullptr;
+	
 	AActor* Scan();
+	
 };

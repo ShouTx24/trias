@@ -9,6 +9,7 @@ AItem::AItem()
 	RootComponent = Root;
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(FName(TEXT("Mesh Component")));
 	MeshComp->SetupAttachment(Root);
+
 }
 
 void AItem::BeginPlay()
