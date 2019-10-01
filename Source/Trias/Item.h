@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Engine/StaticMesh.h"
 #include "InteractiveObject.h"
+#include "GameplayTagContainer.h"
 #include "Item.generated.h"
 
 UCLASS()
@@ -24,15 +26,26 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 	
+	UFUNCTION(BlueprintCallable)
 	virtual void Interact() override;
 	
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
 	FString ItemName;
 
-	UPROPERTY(BlueprintReadOnly)
-	FString ID;
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
+	FGameplayTag ID;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
+	FGameplayTagContainer Recipe;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
+	UStaticMesh* Model;
+
+	UPROPERTY(BlueprintReadOnly, Category = Item)
 	UStaticMeshComponent* MeshComp;
+
+	UFUNCTION(BlueprintGetter)
+	FString GetItemName();
 
 	void PickedUp();
 

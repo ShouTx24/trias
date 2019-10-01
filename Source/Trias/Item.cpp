@@ -8,6 +8,7 @@ AItem::AItem()
 	USceneComponent* Root = CreateDefaultSubobject<USceneComponent>(FName(TEXT("Root")));
 	RootComponent = Root;
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(FName(TEXT("Mesh Component")));
+	MeshComp->SetStaticMesh(Model);
 	MeshComp->SetupAttachment(Root);
 
 }
@@ -26,6 +27,11 @@ void AItem::Tick(float DeltaTime)
 void AItem::Interact()
 {
 	PickedUp();
+}
+
+FString AItem::GetItemName()
+{
+	return ItemName;
 }
 
 void AItem::PickedUp()

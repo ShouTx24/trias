@@ -16,7 +16,7 @@ void APlayerC::BeginPlay()
 	TGI = Cast<UTriasGameInstance>(GetGameInstance());
 	if (TGI)
 	{
-		GLog->Log("Fine!");
+		GLog->Log("TGI pointer found.");
 	}
 }
 

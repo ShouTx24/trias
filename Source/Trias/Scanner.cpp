@@ -11,6 +11,7 @@ void AScanner::BeginPlay()
 void AScanner::Use()
 {
 	GLog->Log(GetName() + " is in use!");
+	GLog->Log(ID.GetTagName().ToString());
 	Scan();
 }
 
