@@ -8,7 +8,8 @@ APlayerC::APlayerC()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	if(!CraftingManager) CraftingManager = CreateDefaultSubobject<USelfCraftingManager>(FName("Crafting Manager"));
-	
+	Hand = CreateDefaultSubobject<UStaticMeshComponent>(FName("PlayerHand"));
+	Hand->AttachTo(RootComponent);
 }
 
 void APlayerC::BeginPlay()
@@ -63,7 +64,10 @@ void APlayerC::LookUp(float AxisValue)
 
 void APlayerC::SlideItem(float AxisValue)
 {
-	if(Fastbar.Num() > 0) ActiveItem += AxisValue;
+	if (Fastbar.Num() > 0)
+	{
+		ActiveItem += AxisValue;
+	}
 	if (ActiveItem > Fastbar.Num() - 1)
 	{
 		ActiveItem = 0;
@@ -72,6 +76,7 @@ void APlayerC::SlideItem(float AxisValue)
 	{
 		ActiveItem = Fastbar.Num() - 1;
 	}
+	if(Fastbar.IsValidIndex(ActiveItem)) Hand->SetStaticMesh(Fastbar[ActiveItem]->Model);
 }
 
 void APlayerC::InteractWith()
@@ -79,7 +84,7 @@ void APlayerC::InteractWith()
 	FHitResult Hit;
 	if (TGI)
 	{
-		if (TGI->GetPlayerLookingAt(OUT Hit, 400))
+		if (TGI->GetPlayerLookingAt(OUT Hit, 300))
 		{
 			AActor* HittenActor = Hit.GetActor();
 			if (HittenActor->GetClass()->IsChildOf<AInteractiveObject>())

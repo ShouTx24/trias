@@ -41,6 +41,9 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	USelfCraftingManager* CraftingManager = nullptr;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Inventory)
+	UStaticMeshComponent* Hand = nullptr;
+
 	///Movement
 	void MoveForward(float);
 	void MoveRight(float);
@@ -54,7 +57,7 @@ public:
 	TArray<class AItem*>Inventory;
 	
 	UPROPERTY(BlueprintReadOnly, Category = Inventory)
-	int ActiveItem;
+	int ActiveItem = 0;
 	
 	void SlideItem(float AxisValue);
 	void InteractWith();
