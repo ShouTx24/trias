@@ -9,8 +9,10 @@
 #include "Item.h"
 #include "GameFramework/PlayerController.h"
 #include "TriasGameInstance.h"
+#include "TriasGameState.h"
+#include "SelfCraftingManager.h"
 #include "Camera/PlayerCameraManager.h"
-#include "Engine/Public/DrawDebugHelpers.h"
+//#include "Engine/Public/DrawDebugHelpers.h"
 #include "Engine/Public/CollisionQueryParams.h"
 #include "PlayerC.generated.h"
 
@@ -30,7 +32,14 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(BlueprintReadOnly)
 	UTriasGameInstance* TGI = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+	ATriasGameState* TGS = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+	USelfCraftingManager* CraftingManager = nullptr;
 
 	///Movement
 	void MoveForward(float);

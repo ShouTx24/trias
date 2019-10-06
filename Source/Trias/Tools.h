@@ -14,6 +14,5 @@ class TRIAS_API ATools : public AItem
 {
 public:
 	GENERATED_BODY()
-		~ATools();
 	virtual void Use() override;
 };

@@ -6,7 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "Engine/StaticMesh.h"
 #include "InteractiveObject.h"
-#include "GameplayTagContainer.h"
 #include "Item.generated.h"
 
 UCLASS()
@@ -33,15 +32,15 @@ public:
 	FString ItemName;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
-	FGameplayTag ID;
+	FString ID;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
-	FGameplayTagContainer Recipe;
+	TArray<FString> Recipe;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
 	UStaticMesh* Model;
 
-	UPROPERTY(BlueprintReadOnly, Category = Item)
+	UPROPERTY(VisibleDefaultsOnly, Category = Item)
 	UStaticMeshComponent* MeshComp;
 
 	UFUNCTION(BlueprintGetter)

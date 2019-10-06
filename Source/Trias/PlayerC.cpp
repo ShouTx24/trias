@@ -7,6 +7,8 @@
 APlayerC::APlayerC()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	if(!CraftingManager) CraftingManager = CreateDefaultSubobject<USelfCraftingManager>(FName("Crafting Manager"));
+	
 }
 
 void APlayerC::BeginPlay()
@@ -14,10 +16,7 @@ void APlayerC::BeginPlay()
 	Super::BeginPlay();
 	ActiveItem = Fastbar.Num() - 1;
 	TGI = Cast<UTriasGameInstance>(GetGameInstance());
-	if (TGI)
-	{
-		GLog->Log("TGI pointer found.");
-	}
+	TGS = GetWorld()->GetGameState<ATriasGameState>();
 }
 
 void APlayerC::Tick(float DeltaTime)
@@ -87,13 +86,12 @@ void APlayerC::InteractWith()
 			{
 				AInteractiveObject* Object = Cast<AInteractiveObject>(HittenActor);
 
-				GLog->Log("Item: " + Object->GetName());
-
 				if (Object->GetClass()->IsChildOf<AItem>())
 				{
 					AItem* NewItem = Cast<AItem>(Object);
 					PickUpItem(NewItem);
 				}
+
 				Object->Interact();
 			}
 		}

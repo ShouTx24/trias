@@ -9,6 +9,7 @@ AItem::AItem()
 	RootComponent = Root;
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(FName(TEXT("Mesh Component")));
 	MeshComp->SetStaticMesh(Model);
+	MeshComp->SetSimulatePhysics(true);
 	MeshComp->SetupAttachment(Root);
 
 }
@@ -16,6 +17,7 @@ AItem::AItem()
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
+
 }
 
 void AItem::Tick(float DeltaTime)
