@@ -26,5 +26,6 @@ void AInteractiveObject::Tick(float DeltaTime)
 
 void AInteractiveObject::Interact()
 {
+	;
 }
 

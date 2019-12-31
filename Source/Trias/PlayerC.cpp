@@ -8,6 +8,7 @@ APlayerC::APlayerC()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	if(!CraftingManager) CraftingManager = CreateDefaultSubobject<USelfCraftingManager>(FName("Crafting Manager"));
+	if(!BuildingManager) BuildingManager = CreateDefaultSubobject<UBuildingManger>(FName("Building Manager"));
 	Hand = CreateDefaultSubobject<UStaticMeshComponent>(FName("PlayerHand"));
 	Hand->AttachTo(RootComponent);
 }

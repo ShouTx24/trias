@@ -12,7 +12,7 @@
 #include "TriasGameState.h"
 #include "SelfCraftingManager.h"
 #include "Camera/PlayerCameraManager.h"
-//#include "Engine/Public/DrawDebugHelpers.h"
+#include "BuildingManger.h"
 #include "Engine/Public/CollisionQueryParams.h"
 #include "PlayerC.generated.h"
 
@@ -40,6 +40,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	USelfCraftingManager* CraftingManager = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+	UBuildingManger* BuildingManager = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Inventory)
 	UStaticMeshComponent* Hand = nullptr;
