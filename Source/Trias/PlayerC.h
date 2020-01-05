@@ -67,4 +67,5 @@ public:
 	void PickUpItem(AItem* ItemToPick);
 	void UseItem();
 
+	UBuildingManger* GetBuildingManagerComponent();
 };

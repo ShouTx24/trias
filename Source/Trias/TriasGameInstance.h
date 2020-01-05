@@ -10,14 +10,15 @@
 #include "Engine/World.h"
 #include "TriasGameInstance.generated.h"
 
-/**
- * 
- */
+ // Forward Declarations
+class APlayerC;
+
 UCLASS()
 class TRIAS_API UTriasGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintCallable)
-	bool GetPlayerLookingAt(FHitResult & outHit, float reach);
+	bool GetPlayerLookingAt(FHitResult & outHit, float reach, FVector & outLine);
+
 };

@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ProjectElement.h"
+#include "TriasGameInstance.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "BuildingManger.generated.h"
 
 
@@ -25,12 +27,20 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UTriasGameInstance* TGI = nullptr;
+	
+	UPROPERTY()
+	UPhysicsHandleComponent* PhysicsHandleComponent;
+
 	// Spawns UI to choose build element & spawn projectile.
 	
 	UFUNCTION(BlueprintCallable)
 	AProjectElement* SpawnElement();
-	// Place project element.
 
+	void GrabElement(AProjectElement* PE);
+
+	// Place project element.
+	bool PlaceElement();
 	// Give project element a material.
 
 	// Materialised project element.

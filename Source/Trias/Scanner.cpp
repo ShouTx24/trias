@@ -17,7 +17,8 @@ void AScanner::Use()
 AActor* AScanner::Scan()
 {
 	FHitResult OUT Hit;
-	TGI->GetPlayerLookingAt(Hit,20000);
+	FVector Line;
+	TGI->GetPlayerLookingAt(Hit,20000, Line);
 	if (Hit.GetActor())
 	{
 		AActor* ScanActor = Hit.GetActor();

@@ -83,9 +83,10 @@ void APlayerC::SlideItem(float AxisValue)
 void APlayerC::InteractWith()
 {
 	FHitResult Hit;
+	FVector Line;
 	if (TGI)
 	{
-		if (TGI->GetPlayerLookingAt(OUT Hit, 300))
+		if (TGI->GetPlayerLookingAt(OUT Hit, 300, Line))
 		{
 			AActor* HittenActor = Hit.GetActor();
 			if (HittenActor->GetClass()->IsChildOf<AInteractiveObject>())
@@ -116,5 +117,14 @@ void APlayerC::UseItem()
 	{
 		Fastbar[ActiveItem]->Use();
 	}
+	else if (BuildingManager->PhysicsHandleComponent->GetGrabbedComponent())
+	{
+		BuildingManager->PlaceElement();
+	}
+}
+
+UBuildingManger* APlayerC::GetBuildingManagerComponent()
+{
+	return BuildingManager;
 }
 

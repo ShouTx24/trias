@@ -11,6 +11,9 @@
 /**
  * 
  */
+
+class UBuildingManager;
+
 UENUM()
 enum ProjectElementStatus 
 { 

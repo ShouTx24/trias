@@ -7,8 +7,8 @@
 UBuildingManger::UBuildingManger()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	if (!PhysicsHandleComponent) PhysicsHandleComponent = CreateDefaultSubobject<UPhysicsHandleComponent>(FName("PhysicsHandleComponent"));
 
-	// ...
 }
 
 
@@ -16,7 +16,7 @@ UBuildingManger::UBuildingManger()
 void UBuildingManger::BeginPlay()
 {
 	Super::BeginPlay();
-
+	TGI = Cast<UTriasGameInstance>(GetWorld()->GetGameInstance());
 }
 
 
@@ -24,20 +24,49 @@ void UBuildingManger::BeginPlay()
 void UBuildingManger::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
+	if (PhysicsHandleComponent->GetGrabbedComponent())
+	{
+		FHitResult Hit;
+		FVector Line;
+		TGI->GetPlayerLookingAt(Hit, 450, Line);
+		PhysicsHandleComponent->GetGrabbedComponent()->SetWorldLocation(Line);
+	}
 }
 
 AProjectElement* UBuildingManger::SpawnElement()
-{
-//	AProjectElement* PE;
-	
+{	
 	UWorld* World = GetWorld();
 	if (!World) return nullptr;
 
 	UClass* PEC = AProjectElement::StaticClass();
-	
-	World->SpawnActor<AProjectElement>();
+	AProjectElement* PE = World->SpawnActor<AProjectElement>();
+	PE->SetActorEnableCollision(true);
+	GrabElement(PE);
+	return PE;
+}
 
-	return nullptr;
+void UBuildingManger::GrabElement(AProjectElement* PE)
+{
+	UPrimitiveComponent* PEP = Cast<UPrimitiveComponent>(PE->GetRootComponent());
+	PhysicsHandleComponent->GrabComponentAtLocation	(
+														PEP, 
+														NAME_None, 
+														PE->GetTargetLocation()
+													); 
+}
+
+bool UBuildingManger::PlaceElement()
+{
+	if (PhysicsHandleComponent->GetGrabbedComponent())
+	{
+		GLog->Log("Releasing Object");
+		PhysicsHandleComponent->ReleaseComponent();
+		return true;
+	}
+	else
+	{
+		GLog->Log("Can not release object.");
+		return false;
+	}
 }
 
