@@ -26,7 +26,7 @@ void AItem::Tick(float DeltaTime)
 
 }
 
-void AItem::Interact()
+void AItem::Interact_Implementation()
 {
 	PickedUp();
 }

@@ -10,6 +10,7 @@
 #include "GameFramework/PlayerController.h"
 #include "TriasGameInstance.h"
 #include "TriasGameState.h"
+#include "InteractiveInterface.h"
 #include "SelfCraftingManager.h"
 #include "Camera/PlayerCameraManager.h"
 #include "BuildingManger.h"

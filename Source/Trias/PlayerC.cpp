@@ -38,7 +38,6 @@ void APlayerC::SetupPlayerInputComponent(UInputComponent* InputComponent)
 	InputComponent->BindAction("FirstAction", IE_Pressed, this, &APlayerC::UseItem);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
 }
 
 void APlayerC::MoveForward(float AxisValue)
@@ -89,17 +88,15 @@ void APlayerC::InteractWith()
 		if (TGI->GetPlayerLookingAt(OUT Hit, 300, Line))
 		{
 			AActor* HittenActor = Hit.GetActor();
-			if (HittenActor->GetClass()->IsChildOf<AInteractiveObject>())
+			IInteractiveInterface* InteractiveComponent = Cast<IInteractiveInterface>(HittenActor);
+			if (InteractiveComponent)
 			{
-				AInteractiveObject* Object = Cast<AInteractiveObject>(HittenActor);
-
-				if (Object->GetClass()->IsChildOf<AItem>())
-				{
-					AItem* NewItem = Cast<AItem>(Object);
-					PickUpItem(NewItem);
-				}
-
-				Object->Interact();
+				InteractiveComponent->Execute_Interact(HittenActor);
+			}
+			if (Cast<AItem>(HittenActor))
+			{
+				AItem* NewItem = Cast<AItem>(HittenActor);
+				PickUpItem(NewItem);
 			}
 		}
 	}

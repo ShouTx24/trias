@@ -5,11 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Engine/StaticMesh.h"
-#include "InteractiveObject.h"
+#include "InteractiveInterface.h"
 #include "Item.generated.h"
 
 UCLASS()
-class TRIAS_API AItem : public AInteractiveObject
+class TRIAS_API AItem : public AActor, public IInteractiveInterface
 {
 	GENERATED_BODY()
 	
@@ -25,8 +25,7 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 	
-	UFUNCTION(BlueprintCallable)
-	virtual void Interact() override;
+	virtual void Interact_Implementation() override;
 	
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
 	FString ItemName;

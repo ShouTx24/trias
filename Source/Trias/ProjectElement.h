@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InteractiveObject.h"
+#include "InteractiveInterface.h"
 #include "Item.h"
 #include "Engine/StaticMesh.h"
 #include "ProjectElement.generated.h"
@@ -24,7 +24,7 @@ enum ProjectElementStatus
 };
 
 UCLASS()
-class TRIAS_API AProjectElement : public AInteractiveObject
+class TRIAS_API AProjectElement : public AActor, public IInteractiveInterface
 {	
 	GENERATED_BODY()
 
@@ -49,7 +49,7 @@ public:
 	UStaticMesh* GetPE_Mesh();
 
 	// Interact basing on status
-	void Interact() override;
+	virtual void Interact_Implementation() override;
 
 	// Get Material
 	UFUNCTION(BlueprintCallable)

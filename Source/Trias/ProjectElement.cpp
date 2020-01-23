@@ -30,9 +30,8 @@ UStaticMesh* AProjectElement::GetPE_Mesh()
 	return MeshPtr;
 }
 
-void AProjectElement::Interact()
+void AProjectElement::Interact_Implementation()
 {
-	GLog->Log("Test");
 	APlayerC* Player = nullptr;
 	Player = Cast<APlayerC>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	
