@@ -14,6 +14,7 @@
 #include "SelfCraftingManager.h"
 #include "Camera/PlayerCameraManager.h"
 #include "BuildingManger.h"
+#include "Vehicle.h"
 #include "Engine/Public/CollisionQueryParams.h"
 #include "PlayerC.generated.h"
 
@@ -48,6 +49,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Inventory)
 	UStaticMeshComponent* Hand = nullptr;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool bInVehicle = false;
+
 	///Movement
 	void MoveForward(float);
 	void MoveRight(float);
@@ -67,6 +71,9 @@ public:
 	void InteractWith();
 	void PickUpItem(AItem* ItemToPick);
 	void UseItem();
+
+	UPROPERTY(BlueprintReadWrite)
+	AVehicle* Vehicle;
 
 	UBuildingManger* GetBuildingManagerComponent();
 };

@@ -10,7 +10,7 @@
 #include "Vehicle.generated.h"
 
 UCLASS()
-class TRIAS_API AVehicle : public APawn, public IInteractiveInterface
+class TRIAS_API AVehicle : public AActor, public IInteractiveInterface
 {
 	GENERATED_BODY()
 
@@ -25,11 +25,14 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	virtual void Interact_Implementation() override;
 
-	void MoveForward(float);
+	virtual void MoveForward(float);
+	virtual void MoveRight(float);
+	virtual void Turn(float);
+
+	virtual void Sit(APlayerController* PlayerController, bool InVehicle);
+	virtual void EnterVehicle(APlayerController* PlayerController);
+	virtual void LeaveVehicle(APlayerController* PlayerController);
 };

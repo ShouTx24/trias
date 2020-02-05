@@ -2,6 +2,7 @@
 
 
 #include "Vehicle.h"
+#include "PlayerC.h"
 
 // Sets default values
 AVehicle::AVehicle()
@@ -25,26 +26,47 @@ void AVehicle::Tick(float DeltaTime)
 
 }
 
-// Called to bind functionality to input
-void AVehicle::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(InputComponent);
-	InputComponent->BindAxis("MoveForward", this, &AVehicle::MoveForward);
-
-}
-
 void AVehicle::Interact_Implementation()
 {
-	GLog->Log("Pawn Change");
 	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-	PlayerController->AcknowledgedPawn->AttachToActor(this,FAttachmentTransformRules::KeepWorldTransform);
-	PlayerController->UnPossess();
-	PlayerController->SetPawn(this);
+	Sit(PlayerController, false);
 }
 
 void AVehicle::MoveForward(float AxisValue)
 {
-	auto WorldDir = GetActorForwardVector();
-	AddMovementInput(WorldDir, AxisValue, false);
+	GLog->Log("Moving Forward");
+}
+
+void AVehicle::MoveRight(float AxisValue)
+{
+	GLog->Log("Turning");
+}
+
+void AVehicle::Turn(float)
+{
+}
+
+void AVehicle::Sit(APlayerController* PlayerController, bool InVehicle)
+{
+	if (!InVehicle) EnterVehicle(PlayerController);
+	else LeaveVehicle(PlayerController);
+}
+
+void AVehicle::EnterVehicle(APlayerController* PlayerController)
+{
+	GLog->Log("Entering Vehicle.");
+	APlayerC* Player = Cast<APlayerC>(PlayerController->AcknowledgedPawn);
+	Player->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
+	Player->SetActorEnableCollision(false);
+	Player->SetActorLocation(this->GetActorLocation());
+	Player->Vehicle = this;
+}
+
+void AVehicle::LeaveVehicle(APlayerController* PlayerController)
+{
+	GLog->Log("Leaving Vehicle.");
+	PlayerController->AcknowledgedPawn->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	PlayerController->AcknowledgedPawn->SetActorEnableCollision(true);
+	PlayerController->AcknowledgedPawn->SetActorLocation(this->GetActorLocation());
 }
 

@@ -42,14 +42,22 @@ void APlayerC::SetupPlayerInputComponent(UInputComponent* InputComponent)
 
 void APlayerC::MoveForward(float AxisValue)
 {
-	auto WorldDir = GetActorForwardVector();
-	AddMovementInput(WorldDir, AxisValue, false);
+	if (bInVehicle, Vehicle) Vehicle->MoveForward(AxisValue);
+	else
+	{
+		FVector WorldDir = GetActorForwardVector();
+		AddMovementInput(WorldDir, AxisValue, false);
+	}
 }
 
 void APlayerC::MoveRight(float AxisValue)
 {
-	auto WorldDir = GetActorRightVector();
-	AddMovementInput(WorldDir, AxisValue, false);
+	if (bInVehicle, Vehicle) Vehicle->MoveRight(AxisValue);
+	else 
+	{
+		FVector WorldDir = GetActorRightVector();
+		AddMovementInput(WorldDir, AxisValue, false);
+	}
 }
 
 void APlayerC::Turn(float AxisValue)
