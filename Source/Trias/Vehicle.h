@@ -28,8 +28,12 @@ public:
 	
 	virtual void Interact_Implementation() override;
 
-	virtual void MoveForward(float);
-	virtual void MoveRight(float);
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void MoveForward(float AxisValue);
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void MoveRight(float AxisValue);
+	
 	virtual void Turn(float);
 
 	virtual void Sit(APlayerController* PlayerController, bool InVehicle);

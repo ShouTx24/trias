@@ -29,17 +29,16 @@ void AVehicle::Tick(float DeltaTime)
 void AVehicle::Interact_Implementation()
 {
 	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-	Sit(PlayerController, false);
+	APlayerC* Player = Cast<APlayerC>(PlayerController->AcknowledgedPawn);
+	Sit(PlayerController, Player->bInVehicle);
 }
 
-void AVehicle::MoveForward(float AxisValue)
+void AVehicle::MoveForward_Implementation(float AxisValue)
 {
-	GLog->Log("Moving Forward");
 }
 
-void AVehicle::MoveRight(float AxisValue)
+void AVehicle::MoveRight_Implementation(float AxisValue)
 {
-	GLog->Log("Turning");
 }
 
 void AVehicle::Turn(float)
@@ -56,17 +55,22 @@ void AVehicle::EnterVehicle(APlayerController* PlayerController)
 {
 	GLog->Log("Entering Vehicle.");
 	APlayerC* Player = Cast<APlayerC>(PlayerController->AcknowledgedPawn);
-	Player->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
+	FAttachmentTransformRules VehicleTRules(EAttachmentRule::KeepWorld, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, false);
+	Player->AttachToActor(this, VehicleTRules);
 	Player->SetActorEnableCollision(false);
 	Player->SetActorLocation(this->GetActorLocation());
+	Player->bInVehicle = true;
 	Player->Vehicle = this;
 }
 
 void AVehicle::LeaveVehicle(APlayerController* PlayerController)
 {
 	GLog->Log("Leaving Vehicle.");
-	PlayerController->AcknowledgedPawn->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-	PlayerController->AcknowledgedPawn->SetActorEnableCollision(true);
-	PlayerController->AcknowledgedPawn->SetActorLocation(this->GetActorLocation());
+	APlayerC* Player = Cast<APlayerC>(PlayerController->AcknowledgedPawn);
+	Player->Vehicle = nullptr;
+	Player->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	Player->SetActorEnableCollision(true);
+	Player->bInVehicle = false;
+	Player->SetActorLocation(this->GetActorLocation());
 }
 
