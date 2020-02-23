@@ -14,7 +14,7 @@
 #include "SelfCraftingManager.h"
 #include "Camera/PlayerCameraManager.h"
 #include "BuildingManger.h"
-#include "Vehicle.h"
+#include "TriasVehicle.h"
 #include "SkillManager.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/Public/CollisionQueryParams.h"
@@ -58,7 +58,7 @@ public:
 	bool bInVehicle = false;
 
 	UPROPERTY(BlueprintReadWrite)
-	AVehicle* Vehicle;
+	ATriasVehicle* Vehicle;
 
 	UFUNCTION()
 	UBuildingManger* GetBuildingManagerComponent();

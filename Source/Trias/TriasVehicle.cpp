@@ -1,57 +1,57 @@
 // Dactyl Games, all rights reserved.
 
 
-#include "Vehicle.h"
+#include "TriasVehicle.h"
 #include "PlayerC.h"
 
 // Sets default values
-AVehicle::AVehicle()
+ATriasVehicle::ATriasVehicle()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
 
 // Called when the game starts or when spawned
-void AVehicle::BeginPlay()
+void ATriasVehicle::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void AVehicle::Tick(float DeltaTime)
+void ATriasVehicle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void AVehicle::Interact_Implementation()
+void ATriasVehicle::Interact_Implementation()
 {
 	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
 	APlayerC* Player = Cast<APlayerC>(PlayerController->AcknowledgedPawn);
 	Sit(PlayerController, Player->bInVehicle);
 }
 
-void AVehicle::MoveForward_Implementation(float AxisValue)
+void ATriasVehicle::MoveForward_Implementation(float AxisValue)
 {
 }
 
-void AVehicle::MoveRight_Implementation(float AxisValue)
+void ATriasVehicle::MoveRight_Implementation(float AxisValue)
 {
 }
 
-void AVehicle::Turn(float)
+void ATriasVehicle::Turn(float)
 {
 }
 
-void AVehicle::Sit(APlayerController* PlayerController, bool InVehicle)
+void ATriasVehicle::Sit(APlayerController* PlayerController, bool InVehicle)
 {
 	if (!InVehicle) EnterVehicle(PlayerController);
 	else LeaveVehicle(PlayerController);
 }
 
-void AVehicle::EnterVehicle(APlayerController* PlayerController)
+void ATriasVehicle::EnterVehicle(APlayerController* PlayerController)
 {
 	GLog->Log("Entering Vehicle.");
 	APlayerC* Player = Cast<APlayerC>(PlayerController->AcknowledgedPawn);
@@ -63,7 +63,7 @@ void AVehicle::EnterVehicle(APlayerController* PlayerController)
 	Player->Vehicle = this;
 }
 
-void AVehicle::LeaveVehicle(APlayerController* PlayerController)
+void ATriasVehicle::LeaveVehicle(APlayerController* PlayerController)
 {
 	GLog->Log("Leaving Vehicle.");
 	APlayerC* Player = Cast<APlayerC>(PlayerController->AcknowledgedPawn);
@@ -73,4 +73,5 @@ void AVehicle::LeaveVehicle(APlayerController* PlayerController)
 	Player->bInVehicle = false;
 	Player->SetActorLocation(this->GetActorLocation());
 }
+
 
