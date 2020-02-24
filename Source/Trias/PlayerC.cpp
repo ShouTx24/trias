@@ -9,6 +9,7 @@ APlayerC::APlayerC()
 	PrimaryActorTick.bCanEverTick = true;
 	if(!CraftingManager) CraftingManager = CreateDefaultSubobject<USelfCraftingManager>(FName("Crafting Manager"));
 	if(!BuildingManager) BuildingManager = CreateDefaultSubobject<UBuildingManger>(FName("Building Manager"));
+	if (!InventoryManager) InventoryManager = CreateDefaultSubobject<UInventoryManager>(FName("Inventory Manager"));
 	if(!SkillManager) SkillManager = CreateDefaultSubobject<USkillManager>(FName("Skill Manager"));
 	Hand = CreateDefaultSubobject<UStaticMeshComponent>(FName("PlayerHand"));
 	Hand->AttachTo(RootComponent);
@@ -17,7 +18,6 @@ APlayerC::APlayerC()
 void APlayerC::BeginPlay()
 {
 	Super::BeginPlay();
-	ActiveItem = Fastbar.Num() - 1;
 	TGI = Cast<UTriasGameInstance>(GetGameInstance());
 	TGS = GetWorld()->GetGameState<ATriasGameState>();
 }
@@ -153,19 +153,10 @@ void APlayerC::Slide()
 
 void APlayerC::SlideItem(float AxisValue)
 {
-	if (Fastbar.Num() > 0)
-	{
-		ActiveItem += AxisValue;
-	}
-	if (ActiveItem > Fastbar.Num() - 1)
-	{
-		ActiveItem = 0;
-	}
-	else if (ActiveItem < 0)
-	{
-		ActiveItem = Fastbar.Num() - 1;
-	}
-	if(Fastbar.IsValidIndex(ActiveItem)) Hand->SetStaticMesh(Fastbar[ActiveItem]->Model);
+	InventoryManager->ActiveItemIndex -= AxisValue;
+	InventoryManager->ValidateItemIndex();
+	if (InventoryManager->Fastbar.IsValidIndex(InventoryManager->GetActiveItemIndex())) Hand->SetStaticMesh(InventoryManager->Fastbar[InventoryManager->GetActiveItemIndex()]->Model);
+	else Hand->SetStaticMesh(nullptr);
 }
 
 void APlayerC::InteractWith()
@@ -185,28 +176,16 @@ void APlayerC::InteractWith()
 			if (Cast<AItem>(HittenActor))
 			{
 				AItem* NewItem = Cast<AItem>(HittenActor);
-				PickUpItem(NewItem);
+				InventoryManager->PickUpItem(NewItem);
 			}
 		}
 	}
 }
 
-void APlayerC::PickUpItem(AItem* NewIte)
-{
-	auto &NewItem = NewIte;
-	Fastbar.Add(NewItem);
-}
-
 void APlayerC::UseItem()
 {
-	if (Fastbar.Num()-1 >= 0 && Fastbar.IsValidIndex(ActiveItem))
-	{
-		Fastbar[ActiveItem]->Use();
-	}
-	else if (BuildingManager->PhysicsHandleComponent->GetGrabbedComponent())
-	{
-		BuildingManager->PlaceElement();
-	}
+	int ActiveItem = InventoryManager->GetActiveItemIndex();
+	if (InventoryManager->Fastbar.IsValidIndex(ActiveItem)) InventoryManager->Fastbar[ActiveItem]->Use();
 }
 
 UBuildingManger* APlayerC::GetBuildingManagerComponent()

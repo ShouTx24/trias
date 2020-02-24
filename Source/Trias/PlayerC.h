@@ -11,11 +11,12 @@
 #include "TriasGameInstance.h"
 #include "TriasGameState.h"
 #include "InteractiveInterface.h"
-#include "SelfCraftingManager.h"
 #include "Camera/PlayerCameraManager.h"
 #include "BuildingManger.h"
-#include "TriasVehicle.h"
+#include "SelfCraftingManager.h"
 #include "SkillManager.h"
+#include "InventoryManager.h"
+#include "TriasVehicle.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/Public/CollisionQueryParams.h"
 #include "PlayerC.generated.h"
@@ -50,6 +51,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	USkillManager* SkillManager = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+	UInventoryManager* InventoryManager = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Inventory)
 	UStaticMeshComponent* Hand = nullptr;
@@ -125,14 +129,6 @@ public:
 	void Slide();
 	
 	///Equipment & Items
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Inventory)
-	TArray<class AItem*>Fastbar;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Inventory)
-	TArray<class AItem*>Inventory;
-	
-	UPROPERTY(BlueprintReadOnly, Category = Inventory)
-	int ActiveItem = 0;
 	
 	UFUNCTION()
 	void SlideItem(float AxisValue);
@@ -141,9 +137,5 @@ public:
 	void InteractWith();
 	
 	UFUNCTION()
-	void PickUpItem(AItem* ItemToPick);
-	
-	UFUNCTION()
 	void UseItem();
-
 };
