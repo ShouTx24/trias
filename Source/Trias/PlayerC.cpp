@@ -102,7 +102,7 @@ void APlayerC::LookUp(float AxisValue)
 
 void APlayerC::Jump()
 {
-	ACharacter::Jump();
+	if(!bInVehicle) ACharacter::Jump();
 }
 
 void APlayerC::StopJumping()
@@ -112,6 +112,7 @@ void APlayerC::StopJumping()
 
 void APlayerC::Crouch()
 {
+	if (bInVehicle) return;
 	if (!bCrouching)
 	{
 		if (bSprinting)
@@ -132,7 +133,7 @@ void APlayerC::Crouch()
 
 void APlayerC::Sprint()
 {
-	GLog->Log("Sprinting");
+//	if (bInVehicle) return;
 	UCharacterMovementComponent* CharacterMovement = GetCharacterMovement();
 	if (!bSprinting)
 	{
@@ -185,7 +186,11 @@ void APlayerC::InteractWith()
 void APlayerC::UseItem()
 {
 	int ActiveItem = InventoryManager->GetActiveItemIndex();
-	if (InventoryManager->Fastbar.IsValidIndex(ActiveItem)) InventoryManager->Fastbar[ActiveItem]->Use();
+	if (BuildingManager->PhysicsHandleComponent->GetGrabbedComponent())
+	{
+		BuildingManager->PlaceElement();
+	}
+	else if (InventoryManager->Fastbar.IsValidIndex(ActiveItem)) InventoryManager->Fastbar[ActiveItem]->Use();
 }
 
 UBuildingManger* APlayerC::GetBuildingManagerComponent()
