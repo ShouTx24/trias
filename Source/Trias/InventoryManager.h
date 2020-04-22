@@ -40,8 +40,9 @@ public:
 	UFUNCTION()
 	bool PickUpItem(AItem* ItemToPick);
 
-	UFUNCTION()
-	void DropItem(AItem* ItemToDrop);
+	UFUNCTION(BlueprintCallable)
+	void DropItem(int32 ItemToDrop);
+	
 	UFUNCTION()
 	void ValidateItemIndex();
 	

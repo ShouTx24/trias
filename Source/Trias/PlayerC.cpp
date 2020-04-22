@@ -191,6 +191,7 @@ void APlayerC::UseItem()
 		BuildingManager->PlaceElement();
 	}
 	else if (InventoryManager->Fastbar.IsValidIndex(ActiveItem)) InventoryManager->Fastbar[ActiveItem]->Use();
+	else GLog->Log("Hand Attack!");
 }
 
 UBuildingManger* APlayerC::GetBuildingManagerComponent()

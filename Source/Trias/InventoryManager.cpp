@@ -30,9 +30,14 @@ bool UInventoryManager::PickUpItem(AItem* ItemToPick)
 	return false;
 }
 
-void UInventoryManager::DropItem(AItem* ItemToDrop)
+void UInventoryManager::DropItem(int32 ID)
 {
-	UWorld* World = GetWorld();
+	if (Fastbar.IsValidIndex(ID))
+	{
+		AItem* ItemToDrop = Fastbar[ID];
+		ItemToDrop->Dropped();
+		Fastbar.RemoveAt(ID);
+	}
 }
 
 void UInventoryManager::ValidateItemIndex()

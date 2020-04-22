@@ -31,6 +31,9 @@ public:
 	FString ItemName;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
+	UTexture2D* ItemImage;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
 	FString ID;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
@@ -46,7 +49,9 @@ public:
 	FString GetItemName();
 
 	void PickedUp();
-
-	virtual void Use();
+	
+	void Dropped();
+	
+virtual void Use();
 
 };

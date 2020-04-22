@@ -42,6 +42,10 @@ void AItem::PickedUp()
 	MeshComp->DestroyComponent();
 }
 
+void AItem::Dropped()
+{
+}
+
 void AItem::Use()
 {
 }
