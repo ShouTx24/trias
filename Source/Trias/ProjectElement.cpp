@@ -7,7 +7,7 @@
 
 AProjectElement::AProjectElement()
 {
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Models/Placeholders/Placeholder_groundplatform.Placeholder_groundplatform'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Meshes/Placeholders/Placeholder_groundplatform.Placeholder_groundplatform'"));
 	Name = FName("TestPE");
 	MeshPtr = MeshAsset.Object;
 	UStaticMeshComponent* MeshCMP = CreateDefaultSubobject<UStaticMeshComponent>(FName("Test"));

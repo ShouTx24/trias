@@ -1,4 +1,4 @@
-// Trias Development Team, all rights reserved.
+// Dactyl Games, all rights reserved.
 
 #include "Scanner.h"
 
