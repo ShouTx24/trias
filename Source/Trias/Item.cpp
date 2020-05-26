@@ -50,3 +50,6 @@ void AItem::Use()
 {
 }
 
+void AItem::AltUse()
+{
+}

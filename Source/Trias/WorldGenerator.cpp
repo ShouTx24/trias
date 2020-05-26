@@ -5,6 +5,7 @@
 
 void UWorldGenerator::Generate()
 {
+	if (VoxelWorld) VoxelWorld->CreateWorld();
 	FVector StartLocation, ActualLocation = FVector(0.f, 0.f, 0.f);
 	int sign = 1;
 	for (int y = 0; y < WorldSize; y++)
@@ -40,7 +41,7 @@ void UWorldGenerator::DrawHexEdge(FVector Center)
 		AngleRotation.Add(0.f, 60.f, 0.f);
 		FVector LineEnd = Center + AngleRotation.Vector() * InnerHexRadius;
 		UE_LOG(LogTemp, Warning, TEXT("End is %s"), *LineEnd.ToString());
-		DrawDebugLine(World, Center, LineEnd, FColor::Green, false, 500.f);
+		DrawDebugLine(World, Center, LineEnd, FColor::Red, false, 500.f);
 		Center = LineEnd;
 	}
 }

@@ -52,6 +52,8 @@ public:
 	
 	void Dropped();
 	
-virtual void Use();
+	virtual void Use();
+
+	virtual void AltUse();
 
 };

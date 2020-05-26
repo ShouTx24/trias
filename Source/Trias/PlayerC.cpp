@@ -9,7 +9,7 @@ APlayerC::APlayerC()
 	PrimaryActorTick.bCanEverTick = true;
 	if(!CraftingManager) CraftingManager = CreateDefaultSubobject<USelfCraftingManager>(FName("Crafting Manager"));
 	if(!BuildingManager) BuildingManager = CreateDefaultSubobject<UBuildingManger>(FName("Building Manager"));
-	if (!InventoryManager) InventoryManager = CreateDefaultSubobject<UInventoryManager>(FName("Inventory Manager"));
+	if(!InventoryManager) InventoryManager = CreateDefaultSubobject<UInventoryManager>(FName("Inventory Manager"));
 	if(!SkillManager) SkillManager = CreateDefaultSubobject<USkillManager>(FName("Skill Manager"));
 	Hand = CreateDefaultSubobject<UStaticMeshComponent>(FName("PlayerHand"));
 	Hand->AttachTo(RootComponent);
@@ -37,6 +37,7 @@ void APlayerC::SetupPlayerInputComponent(UInputComponent* InputComponent)
 	InputComponent->BindAxis("SlideItem", this, &APlayerC::SlideItem);
 	InputComponent->BindAction("Interact", IE_Pressed, this, &APlayerC::InteractWith);
 	InputComponent->BindAction("FirstAction", IE_Pressed, this, &APlayerC::UseItem);
+	InputComponent->BindAction("SecondAction", IE_Pressed, this, &APlayerC::AltUseItem);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &APlayerC::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &APlayerC::StopJumping);
 	InputComponent->BindAction("Crouch", IE_Pressed, this, &APlayerC::Crouch);
@@ -192,6 +193,14 @@ void APlayerC::UseItem()
 	}
 	else if (InventoryManager->Fastbar.IsValidIndex(ActiveItem)) InventoryManager->Fastbar[ActiveItem]->Use();
 	else GLog->Log("Hand Attack!");
+}
+
+void APlayerC::AltUseItem()
+{
+	int ActiveItem = InventoryManager->GetActiveItemIndex();
+
+	if (InventoryManager->Fastbar.IsValidIndex(ActiveItem)) InventoryManager->Fastbar[ActiveItem]->AltUse();
+	else GLog->Log("Block");
 }
 
 UBuildingManger* APlayerC::GetBuildingManagerComponent()

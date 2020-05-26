@@ -138,4 +138,6 @@ public:
 	
 	UFUNCTION()
 	void UseItem();
+	UFUNCTION()
+	void AltUseItem();
 };

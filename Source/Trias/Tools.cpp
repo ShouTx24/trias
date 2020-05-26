@@ -5,3 +5,7 @@
 void ATools::Use()
 {
 }
+
+void ATools::AltUse()
+{
+}
