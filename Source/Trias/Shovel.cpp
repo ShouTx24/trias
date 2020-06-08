@@ -33,7 +33,6 @@ void AShovel::AltUse()
 	if (Cast<AVoxelWorld>(Hit.GetActor()))
 	{
 		VoxelWorld = Cast<AVoxelWorld>(Hit.GetActor());
-		UVoxelSphereTools::RemoveSphere(VoxelWorld, Hit.ImpactPoint, 35, true);
 		UVoxelSphereTools::SmoothSphere(VoxelWorld, Hit.ImpactPoint, 35 * 1.5, 20, true);
 	}
 	else return;
