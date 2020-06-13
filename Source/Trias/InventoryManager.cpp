@@ -2,6 +2,7 @@
 
 
 #include "InventoryManager.h"
+#include "PlayerC.h"
 
 // Sets default values for this component's properties
 UInventoryManager::UInventoryManager()
@@ -26,8 +27,13 @@ void UInventoryManager::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 bool UInventoryManager::PickUpItem(AItem* ItemToPick)
 {
 	auto& NewItem = ItemToPick;
-	Fastbar.Add(NewItem);
-	return false;
+	if (Fastbar.Num() < FastbarSize)
+	{
+		Fastbar.Add(NewItem);
+		Cast<APlayerC>(GetOwner())->ItemChanged(NewItem);
+		return true;
+	}
+	else return false;
 }
 
 void UInventoryManager::DropItem(int32 ID)

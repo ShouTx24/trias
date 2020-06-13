@@ -36,6 +36,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
 	FString ID;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Widgets")
+	UUserWidget* ItemSlot;
+
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = Item)
 	TArray<FString> Recipe;
 
@@ -55,5 +58,7 @@ public:
 	virtual void Use();
 
 	virtual void AltUse();
+
+
 
 };

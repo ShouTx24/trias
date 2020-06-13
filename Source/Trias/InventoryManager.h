@@ -34,8 +34,11 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = Inventory)
 	int ActiveItemIndex = 0;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category = Inventory)
 	int FastbarSize = 5;
+
+	UPROPERTY(BlueprintReadOnly, Category = Inventory)
+	int InventorySize = 15;
 
 	UFUNCTION()
 	bool PickUpItem(AItem* ItemToPick);

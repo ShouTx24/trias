@@ -43,7 +43,7 @@ void UTimeManager::SetInGameTime(float NewTime)
 
 void UTimeManager::AddInGameTime(float AddedTime)
 {
-	if (!bInGameTimeRunning) return;
+	if (!bInGameTimeRunning) AddedTime = 0;
 	if (InGameTime >= 360) InGameTime = 0;
 	InGameTime += AddedTime;
 }
@@ -61,5 +61,18 @@ void UTimeManager::SetTimeRunning(bool NewState)
 float UTimeManager::GetHour()
 {
 	return InGameTime / 15;
+}
+
+FString UTimeManager::GetFixedHourDisplay()
+{
+	float DecimalPart = GetHour();
+	DecimalPart = FGenericPlatformMath::Frac(DecimalPart);
+	DecimalPart *= 0.6l;
+	DecimalPart += FGenericPlatformMath::FloorToFloat(GetHour());
+	FString FixedHour = FString::SanitizeFloat(DecimalPart);
+	if (GetHour() < 10) FixedHour = TEXT("0") + FixedHour;
+	FixedHour.RemoveAt(5, 10);
+	FixedHour.ReplaceInline(TEXT("."), TEXT(":"));
+	return FixedHour;
 }
 

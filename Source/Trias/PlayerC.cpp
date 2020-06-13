@@ -71,6 +71,10 @@ float APlayerC::GetHealthLegs()
 	return HealthLegs;
 }
 
+void APlayerC::ItemChanged_Implementation(AItem* Item)
+{
+}
+
 void APlayerC::MoveForward(float AxisValue)
 {
 	if (bInVehicle, Vehicle) Vehicle->MoveForward(AxisValue);
@@ -173,12 +177,15 @@ void APlayerC::InteractWith()
 			IInteractiveInterface* InteractiveComponent = Cast<IInteractiveInterface>(HittenActor);
 			if (InteractiveComponent)
 			{
-				InteractiveComponent->Execute_Interact(HittenActor);
-			}
-			if (Cast<AItem>(HittenActor))
-			{
-				AItem* NewItem = Cast<AItem>(HittenActor);
-				InventoryManager->PickUpItem(NewItem);
+				if (Cast<AItem>(HittenActor))
+				{
+					AItem* NewItem = Cast<AItem>(HittenActor);
+					if (InventoryManager->PickUpItem(NewItem)) InteractiveComponent->Execute_Interact(HittenActor);
+				}
+				else if (InteractiveComponent)
+				{
+					InteractiveComponent->Execute_Interact(HittenActor);
+				}
 			}
 		}
 	}

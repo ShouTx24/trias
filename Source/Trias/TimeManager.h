@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "GenericPlatform/GenericPlatformMath.h"
 #include "TimeManager.generated.h"
 
 
@@ -48,6 +49,9 @@ public:
 	UFUNCTION(BlueprintCallable, Exec)
 	void SetTimeRunning(bool NewState);
 	
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	float GetHour();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	FString GetFixedHourDisplay();
 };
