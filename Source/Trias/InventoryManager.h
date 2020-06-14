@@ -26,21 +26,27 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Inventory)
-	TArray<class AItem*>Fastbar;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Inventory)
 	TArray<class AItem*>Inventory;
 
 	UPROPERTY(BlueprintReadOnly, Category = Inventory)
 	int ActiveItemIndex = 0;
 
-	UPROPERTY(BlueprintReadOnly, Category = Inventory)
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Inventory)
 	int FastbarSize = 5;
 
-	UPROPERTY(BlueprintReadOnly, Category = Inventory)
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Inventory)
 	int InventorySize = 15;
 
 	UFUNCTION()
+	TArray<class AItem*>GetInventory();
+
+	UFUNCTION()
+	AItem* GetItem(AItem* ItemToFind);
+	
+	UFUNCTION(BlueprintCallable)
+	void GiveItem(FString ID);
+
+	UFUNCTION(BlueprintCallable)
 	bool PickUpItem(AItem* ItemToPick);
 
 	UFUNCTION(BlueprintCallable)

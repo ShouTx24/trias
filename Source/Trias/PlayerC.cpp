@@ -161,7 +161,7 @@ void APlayerC::SlideItem(float AxisValue)
 {
 	InventoryManager->ActiveItemIndex -= AxisValue;
 	InventoryManager->ValidateItemIndex();
-	if (InventoryManager->Fastbar.IsValidIndex(InventoryManager->GetActiveItemIndex())) Hand->SetStaticMesh(InventoryManager->Fastbar[InventoryManager->GetActiveItemIndex()]->Model);
+	if (InventoryManager->Inventory.IsValidIndex(InventoryManager->GetActiveItemIndex())) Hand->SetStaticMesh(InventoryManager->Inventory[InventoryManager->GetActiveItemIndex()]->Model);
 	else Hand->SetStaticMesh(nullptr);
 }
 
@@ -198,7 +198,7 @@ void APlayerC::UseItem()
 	{
 		BuildingManager->PlaceElement();
 	}
-	else if (InventoryManager->Fastbar.IsValidIndex(ActiveItem)) InventoryManager->Fastbar[ActiveItem]->Use();
+	else if (InventoryManager->Inventory.IsValidIndex(ActiveItem)) InventoryManager->Inventory[ActiveItem]->Use();
 	else GLog->Log("Hand Attack!");
 }
 
@@ -206,7 +206,7 @@ void APlayerC::AltUseItem()
 {
 	int ActiveItem = InventoryManager->GetActiveItemIndex();
 
-	if (InventoryManager->Fastbar.IsValidIndex(ActiveItem)) InventoryManager->Fastbar[ActiveItem]->AltUse();
+	if (InventoryManager->Inventory.IsValidIndex(ActiveItem)) InventoryManager->Inventory[ActiveItem]->AltUse();
 	else GLog->Log("Block");
 }
 

@@ -24,12 +24,41 @@ void UInventoryManager::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
+TArray<class AItem*> UInventoryManager::GetInventory()
+{
+	return Inventory;
+}
+
+AItem* UInventoryManager::GetItem(AItem* ItemToFind)
+{
+	return nullptr;
+}
+
+void UInventoryManager::GiveItem(FString ID)
+{
+	ATriasGameState* TGS = Cast<ATriasGameState>(GetWorld()->GetGameState());
+	for (TSubclassOf<AItem> ItemClass : TGS->ItemList)
+	{
+		AItem* Item = Cast<AItem>(ItemClass->GetDefaultObject());
+		if (Item->ID == ID) 
+		{ 
+			if (Inventory.Num() < FastbarSize)
+			{
+				Inventory.Add(Item);
+				Cast<APlayerC>(GetOwner())->ItemChanged(Item);
+			}
+		}
+		else GLog->Log("Item not found!");
+		
+	}
+}
+
 bool UInventoryManager::PickUpItem(AItem* ItemToPick)
 {
 	auto& NewItem = ItemToPick;
-	if (Fastbar.Num() < FastbarSize)
+	if (Inventory.Num() < FastbarSize)
 	{
-		Fastbar.Add(NewItem);
+		Inventory.Add(NewItem);
 		Cast<APlayerC>(GetOwner())->ItemChanged(NewItem);
 		return true;
 	}
@@ -38,11 +67,11 @@ bool UInventoryManager::PickUpItem(AItem* ItemToPick)
 
 void UInventoryManager::DropItem(int32 ID)
 {
-	if (Fastbar.IsValidIndex(ID))
+	if (Inventory.IsValidIndex(ID))
 	{
-		AItem* ItemToDrop = Fastbar[ID];
+		AItem* ItemToDrop = Inventory[ID];
 		ItemToDrop->Dropped();
-		Fastbar.RemoveAt(ID);
+		Inventory.RemoveAt(ID);
 	}
 }
 
