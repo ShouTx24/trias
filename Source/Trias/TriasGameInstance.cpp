@@ -1,6 +1,7 @@
 // Dactyl Games, all rights reserved.
 
 #include "TriasGameInstance.h"
+#include "PlayerC.h"
 
 bool UTriasGameInstance::GetPlayerLookingAt(FHitResult & outHit, float reach, FVector & outLine)
 {
@@ -18,4 +19,10 @@ bool UTriasGameInstance::GetPlayerLookingAt(FHitResult & outHit, float reach, FV
 	TraceParams.bReturnPhysicalMaterial = true;
 	TraceParams.AddIgnoredActor(Player);
 	return World->LineTraceSingleByChannel(OUT outHit, PlayerLocation, LineEnd, ECC_WorldStatic, TraceParams);
+}
+
+void UTriasGameInstance::GiveItem(FString ID)
+{
+	APlayerC* Player = Cast<APlayerC>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	Player->InventoryManager->GiveItem(ID);
 }

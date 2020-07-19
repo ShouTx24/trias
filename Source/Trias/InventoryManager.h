@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Item.h"
+#include "TriasGameState.h"
 #include "InventoryManager.generated.h"
 
 
@@ -37,6 +38,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Inventory)
 	int InventorySize = 15;
 
+	UPROPERTY(BlueprintReadOnly, Category = GameState)
+	ATriasGameState* TGS = nullptr;
+
 	UFUNCTION()
 	TArray<class AItem*>GetInventory();
 
@@ -57,5 +61,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	int GetActiveItemIndex();
+
+	UFUNCTION(BlueprintCallable)
+	bool FindItem(TArray<AItem*> Materials, TSubclassOf<AItem>& outFoundItem, FString& ID);
 
 };

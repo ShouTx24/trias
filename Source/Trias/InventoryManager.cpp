@@ -14,7 +14,7 @@ UInventoryManager::UInventoryManager()
 // Called when the game starts
 void UInventoryManager::BeginPlay()
 {
-	Super::BeginPlay();
+	TGS = GetWorld()->GetGameState<ATriasGameState>();
 }
 
 
@@ -92,3 +92,28 @@ int UInventoryManager::GetActiveItemIndex()
 	return ActiveItemIndex;
 }
 
+bool UInventoryManager::FindItem(TArray<AItem*> Materials, TSubclassOf<AItem>& outFoundItem, FString& NewItemID)
+{
+	if (!TGS) return false;
+	if (Materials.Num() <= 0) return false;
+	TArray<FString> IDs;
+	for (AItem* Item : Materials)
+	{
+		IDs.Add(Item->ID);
+	}
+	for (TSubclassOf<AItem> ItemClass : TGS->ItemList)
+	{
+		AItem* Item = Cast<AItem>(ItemClass->GetDefaultObject());
+
+		Item->Recipe.StableSort();
+		IDs.StableSort();
+
+		if (Item->Recipe == IDs)
+		{
+			outFoundItem = ItemClass;
+			NewItemID = Item->ID;
+			return true;
+		}
+	}
+	return false;
+}

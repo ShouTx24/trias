@@ -21,4 +21,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool GetPlayerLookingAt(FHitResult & outHit, float reach, FVector & outLine);
 
+	UFUNCTION(Exec)
+	void GiveItem(FString ID);
 };

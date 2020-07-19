@@ -13,7 +13,6 @@
 #include "InteractiveInterface.h"
 #include "Camera/PlayerCameraManager.h"
 #include "BuildingManger.h"
-#include "SelfCraftingManager.h"
 #include "SkillManager.h"
 #include "InventoryManager.h"
 #include "TriasVehicle.h"
@@ -42,9 +41,6 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	ATriasGameState* TGS = nullptr;
-
-	UPROPERTY(BlueprintReadOnly)
-	USelfCraftingManager* CraftingManager = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
 	UBuildingManger* BuildingManager = nullptr;
