@@ -137,8 +137,5 @@ public:
 	
 	UFUNCTION()
 	void AltUseItem();
-	
-	UFUNCTION(BlueprintNativeEvent)
-	void ItemChanged(AItem* Item);
 
 };

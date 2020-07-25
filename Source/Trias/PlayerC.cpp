@@ -70,10 +70,6 @@ float APlayerC::GetHealthLegs()
 	return HealthLegs;
 }
 
-void APlayerC::ItemChanged_Implementation(AItem* Item)
-{
-}
-
 void APlayerC::MoveForward(float AxisValue)
 {
 	if (bInVehicle, Vehicle) Vehicle->MoveForward(AxisValue);

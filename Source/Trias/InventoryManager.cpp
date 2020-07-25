@@ -44,8 +44,11 @@ void UInventoryManager::GiveItem(FString ID)
 		{ 
 			if (Inventory.Num() < FastbarSize)
 			{
-				Inventory.Add(Item);
-				Cast<APlayerC>(GetOwner())->ItemChanged(Item);
+//				Inventory.Add(Item);
+				Item = Cast<AItem>(GetWorld()->SpawnActor(Item->GetClass()));
+				PickUpItem(Item);
+				Item->PickedUp();
+//				Cast<APlayerC>(GetOwner())->ItemChanged(Item);
 			}
 		}
 		else GLog->Log("Item not found!");
@@ -59,7 +62,7 @@ bool UInventoryManager::PickUpItem(AItem* ItemToPick)
 	if (Inventory.Num() < FastbarSize)
 	{
 		Inventory.Add(NewItem);
-		Cast<APlayerC>(GetOwner())->ItemChanged(NewItem);
+//		Cast<APlayerC>(GetOwner())->ItemChanged(NewItem);
 		return true;
 	}
 	else return false;
