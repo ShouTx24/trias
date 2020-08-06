@@ -14,6 +14,7 @@ UInventoryManager::UInventoryManager()
 // Called when the game starts
 void UInventoryManager::BeginPlay()
 {
+	Super::BeginPlay();
 	TGS = GetWorld()->GetGameState<ATriasGameState>();
 }
 

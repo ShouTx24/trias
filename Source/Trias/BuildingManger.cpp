@@ -2,6 +2,7 @@
 
 
 #include "BuildingManger.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values for this component's properties
 UBuildingManger::UBuildingManger()
@@ -29,6 +30,10 @@ void UBuildingManger::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 		FHitResult Hit;
 		FVector Line;
 		TGI->GetPlayerLookingAt(Hit, 450, Line);
+		if (Hit.GetComponent() && Hit.GetComponent()->GetOwner()->GetClass()->IsChildOf<AProjectElement>())
+		{
+			Line = Hit.GetComponent()->GetSocketLocation(FName(Hit.GetComponent()->GetName()));
+		}
 		PhysicsHandleComponent->GetGrabbedComponent()->SetWorldLocation(Line);
 	}
 }
@@ -38,9 +43,7 @@ AProjectElement* UBuildingManger::SpawnElement()
 	UWorld* World = GetWorld();
 	if (!World) return nullptr;
 
-	UClass* PEC = AProjectElement::StaticClass();
 	AProjectElement* PE = World->SpawnActor<AProjectElement>();
-	PE->SetActorEnableCollision(true);
 	GrabElement(PE);
 	return PE;
 }
@@ -48,11 +51,7 @@ AProjectElement* UBuildingManger::SpawnElement()
 void UBuildingManger::GrabElement(AProjectElement* PE)
 {
 	UPrimitiveComponent* PEP = Cast<UPrimitiveComponent>(PE->GetRootComponent());
-	PhysicsHandleComponent->GrabComponentAtLocation	(
-														PEP, 
-														NAME_None, 
-														PE->GetTargetLocation()
-													); 
+	PhysicsHandleComponent->GrabComponentAtLocation	(PEP, NAME_None, PE->GetTargetLocation()); 
 }
 
 bool UBuildingManger::PlaceElement()
@@ -60,6 +59,12 @@ bool UBuildingManger::PlaceElement()
 	if (PhysicsHandleComponent->GetGrabbedComponent())
 	{
 		GLog->Log("Releasing Object");
+		PhysicsHandleComponent->GetGrabbedComponent()->SetCollisionProfileName(FName("BlockAll"));
+		TArray<USceneComponent*> Children = PhysicsHandleComponent->GetGrabbedComponent()->GetAttachChildren();
+		for (USceneComponent* Child : Children)
+		{
+			Cast<USphereComponent>(Child)->SetCollisionProfileName(FName("IgnoreOnlyPawn"));
+		}
 		PhysicsHandleComponent->ReleaseComponent();
 		return true;
 	}

@@ -4,6 +4,7 @@
 #include "ProjectElement.h"
 #include "PlayerC.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Components/SphereComponent.h"
 
 AProjectElement::AProjectElement()
 {
@@ -11,8 +12,20 @@ AProjectElement::AProjectElement()
 	Name = FName("TestPE");
 	MeshPtr = MeshAsset.Object;
 	UStaticMeshComponent* MeshCMP = CreateDefaultSubobject<UStaticMeshComponent>(FName("Test"));
-	MeshCMP->AttachTo(RootComponent);
 	MeshCMP->SetStaticMesh(MeshPtr);
+	MeshCMP->SetCollisionProfileName(FName("NoCollision"));
+	RootComponent = MeshCMP;
+	for (int i = 0; i < 4; i++)
+	{
+		FString ID = FString::FromInt(i);
+		FName SocketID(ID);
+		USphereComponent* Collision = CreateDefaultSubobject<USphereComponent>(SocketID);
+		Collision->InitSphereRadius(150);
+		Collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		Collision->SetCollisionProfileName(FName("NoCollision"));
+		Collision->AttachTo(MeshCMP, SocketID);
+	}
+	//	MeshCMP->AttachTo(RootComponent);
 	Status = AvailableStand;
 }
 ProjectElementStatus AProjectElement::GetPE_Status()

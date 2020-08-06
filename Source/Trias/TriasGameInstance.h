@@ -19,7 +19,7 @@ class TRIAS_API UTriasGameInstance : public UGameInstance
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintCallable)
-	bool GetPlayerLookingAt(FHitResult & outHit, float reach, FVector & outLine);
+	bool GetPlayerLookingAt(FHitResult & outHit, float reach, FVector & outLine, ECollisionChannel Channel = ECC_WorldStatic);
 
 	UFUNCTION(Exec)
 	void GiveItem(FString ID);
