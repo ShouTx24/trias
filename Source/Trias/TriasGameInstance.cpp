@@ -3,7 +3,7 @@
 #include "TriasGameInstance.h"
 #include "PlayerC.h"
 
-bool UTriasGameInstance::GetPlayerLookingAt(FHitResult & outHit, float reach, FVector & outLine)
+bool UTriasGameInstance::GetPlayerLookingAt(FHitResult & outHit, float reach, FVector & outLine, ECollisionChannel Channel)
 {
 	UWorld* World = GetWorld();
 	APawn* Player = World->GetFirstPlayerController()->GetPawn();
@@ -18,7 +18,7 @@ bool UTriasGameInstance::GetPlayerLookingAt(FHitResult & outHit, float reach, FV
 	FCollisionQueryParams TraceParams(FName("Name"), false, Player);
 	TraceParams.bReturnPhysicalMaterial = true;
 	TraceParams.AddIgnoredActor(Player);
-	return World->LineTraceSingleByChannel(OUT outHit, PlayerLocation, LineEnd, ECC_WorldStatic, TraceParams);
+	return World->LineTraceSingleByChannel(OUT outHit, PlayerLocation, LineEnd, Channel, TraceParams);
 }
 
 void UTriasGameInstance::GiveItem(FString ID)
