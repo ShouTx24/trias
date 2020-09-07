@@ -7,7 +7,7 @@
 APlayerC::APlayerC()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	if(!BuildingManager) BuildingManager = CreateDefaultSubobject<UBuildingManger>(FName("Building Manager"));
+	if(!BuildingManager) BuildingManager = CreateDefaultSubobject<UBuildingManager>(FName("Building Manager"));
 	if(!InventoryManager) InventoryManager = CreateDefaultSubobject<UInventoryManager>(FName("Inventory Manager"));
 	if(!SkillManager) SkillManager = CreateDefaultSubobject<USkillManager>(FName("Skill Manager"));
 	Hand = CreateDefaultSubobject<UStaticMeshComponent>(FName("PlayerHand"));
@@ -26,23 +26,23 @@ void APlayerC::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void APlayerC::SetupPlayerInputComponent(UInputComponent* InputComponent)
+void APlayerC::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(InputComponent);
-	InputComponent->BindAxis("MoveForward", this, &APlayerC::MoveForward);
-	InputComponent->BindAxis("MoveRight", this, &APlayerC::MoveRight);
-	InputComponent->BindAxis("Turn", this, &APlayerC::Turn);
-	InputComponent->BindAxis("LookUp", this, &APlayerC::LookUp);
-	InputComponent->BindAxis("SlideItem", this, &APlayerC::SlideItem);
-	InputComponent->BindAction("Interact", IE_Pressed, this, &APlayerC::InteractWith);
-	InputComponent->BindAction("FirstAction", IE_Pressed, this, &APlayerC::UseItem);
-	InputComponent->BindAction("SecondAction", IE_Pressed, this, &APlayerC::AltUseItem);
-	InputComponent->BindAction("Jump", IE_Pressed, this, &APlayerC::Jump);
-	InputComponent->BindAction("Jump", IE_Released, this, &APlayerC::StopJumping);
-	InputComponent->BindAction("Crouch", IE_Pressed, this, &APlayerC::Crouch);
-	InputComponent->BindAction("Crouch", IE_Released, this, &APlayerC::Crouch);
-	InputComponent->BindAction("Sprint", IE_Pressed, this, &APlayerC::Sprint);
-	InputComponent->BindAction("Sprint", IE_Released, this, &APlayerC::Sprint);
+	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerC::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerC::MoveRight);
+	PlayerInputComponent->BindAxis("Turn", this, &APlayerC::Turn);
+	PlayerInputComponent->BindAxis("LookUp", this, &APlayerC::LookUp);
+	PlayerInputComponent->BindAxis("SlideItem", this, &APlayerC::SlideItem);
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &APlayerC::InteractWith);
+	PlayerInputComponent->BindAction("FirstAction", IE_Pressed, this, &APlayerC::UseItem);
+	PlayerInputComponent->BindAction("SecondAction", IE_Pressed, this, &APlayerC::AltUseItem);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &APlayerC::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &APlayerC::StopJumping);
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &APlayerC::TurnCrouching);
+	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &APlayerC::TurnCrouching);
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &APlayerC::Sprint);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &APlayerC::Sprint);
 }
 
 float APlayerC::GetHealthHead()
@@ -110,16 +110,16 @@ void APlayerC::StopJumping()
 	ACharacter::StopJumping();
 }
 
-void APlayerC::Crouch()
+void APlayerC::TurnCrouching()
 {
 	if (bInVehicle) return;
 	if (!bCrouching)
 	{
 		if (bSprinting)
 		{
-			UCharacterMovementComponent* CharacterMovement = GetCharacterMovement();
+			UCharacterMovementComponent* CharacterMovementPointer = GetCharacterMovement();
 			FVector WorldDir = GetActorForwardVector();
-			CharacterMovement->AddImpulse(WorldDir, true);
+			CharacterMovementPointer->AddImpulse(WorldDir, true);
 		}
 		ACharacter::Crouch();
 		bCrouching = true;
@@ -134,16 +134,16 @@ void APlayerC::Crouch()
 void APlayerC::Sprint()
 {
 //	if (bInVehicle) return;
-	UCharacterMovementComponent* CharacterMovement = GetCharacterMovement();
+	UCharacterMovementComponent* CharacterMovementPointer = GetCharacterMovement();
 	if (!bSprinting)
 	{
 		bSprinting = true;
-		CharacterMovement->MaxWalkSpeed = 500;
+		CharacterMovementPointer->MaxWalkSpeed = 500;
 	}
 	else
 	{
 		bSprinting = false;
-		CharacterMovement->MaxWalkSpeed = 300;
+		CharacterMovementPointer->MaxWalkSpeed = 300;
 	}
 }
 
@@ -205,7 +205,7 @@ void APlayerC::AltUseItem()
 	else GLog->Log("Block");
 }
 
-UBuildingManger* APlayerC::GetBuildingManagerComponent()
+UBuildingManager* APlayerC::GetBuildingManagerComponent()
 {
 	return BuildingManager;
 }

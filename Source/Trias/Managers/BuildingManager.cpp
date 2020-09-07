@@ -1,20 +1,18 @@
 // Dactyl Games, all rights reserved.
 
 
-#include "BuildingManger.h"
-#include "Components/SphereComponent.h"
+#include "BuildingManager.h"
 
 // Sets default values for this component's properties
-UBuildingManger::UBuildingManger()
+UBuildingManager::UBuildingManager()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	if (!PhysicsHandleComponent) PhysicsHandleComponent = CreateDefaultSubobject<UPhysicsHandleComponent>(FName("PhysicsHandleComponent"));
-
 }
 
 
 // Called when the game starts
-void UBuildingManger::BeginPlay()
+void UBuildingManager::BeginPlay()
 {
 	Super::BeginPlay();
 	TGI = Cast<UTriasGameInstance>(GetWorld()->GetGameInstance());
@@ -22,7 +20,7 @@ void UBuildingManger::BeginPlay()
 
 
 // Called every frame
-void UBuildingManger::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UBuildingManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if (PhysicsHandleComponent->GetGrabbedComponent())
@@ -30,7 +28,7 @@ void UBuildingManger::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 		FHitResult Hit;
 		FVector Line;
 		TGI->GetPlayerLookingAt(Hit, 450, Line);
-		if (Hit.GetComponent() && Hit.GetComponent()->GetOwner()->GetClass()->IsChildOf<AProjectElement>())
+		if (Hit.GetComponent() && Hit.GetComponent()->GetOwner()->GetClass()->IsChildOf<ABuildingElement>())
 		{
 			Line = Hit.GetComponent()->GetSocketLocation(FName(Hit.GetComponent()->GetName()));
 		}
@@ -38,23 +36,23 @@ void UBuildingManger::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	}
 }
 
-AProjectElement* UBuildingManger::SpawnElement()
-{	
+ABuildingElement* UBuildingManager::SpawnElement()
+{
 	UWorld* World = GetWorld();
 	if (!World) return nullptr;
 
-	AProjectElement* PE = World->SpawnActor<AProjectElement>();
+	ABuildingElement* PE = World->SpawnActor<ABuildingElement>();
 	GrabElement(PE);
 	return PE;
 }
 
-void UBuildingManger::GrabElement(AProjectElement* PE)
+void UBuildingManager::GrabElement(ABuildingElement* PE)
 {
 	UPrimitiveComponent* PEP = Cast<UPrimitiveComponent>(PE->GetRootComponent());
-	PhysicsHandleComponent->GrabComponentAtLocation	(PEP, NAME_None, PE->GetTargetLocation()); 
+	PhysicsHandleComponent->GrabComponentAtLocation(PEP, NAME_None, PE->GetTargetLocation());
 }
 
-bool UBuildingManger::PlaceElement()
+bool UBuildingManager::PlaceElement()
 {
 	if (PhysicsHandleComponent->GetGrabbedComponent())
 	{

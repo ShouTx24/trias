@@ -4,20 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "ProjectElement.h"
-#include "TriasGameInstance.h"
+#include "Building/BuildingElement.h"
+#include "../Game Managment/TriasGameInstance.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
-#include "BuildingManger.generated.h"
+#include "Components/SphereComponent.h"
+#include "BuildingManager.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TRIAS_API UBuildingManger : public UActorComponent
+class TRIAS_API UBuildingManager : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UBuildingManger();
+	UBuildingManager();
 
 protected:
 	// Called when the game starts
@@ -28,16 +29,16 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UTriasGameInstance* TGI = nullptr;
-	
+
 	UPROPERTY()
 	UPhysicsHandleComponent* PhysicsHandleComponent;
 
 	// Spawns UI to choose build element & spawn projectile.
-	
-	UFUNCTION(BlueprintCallable)
-	AProjectElement* SpawnElement();
 
-	void GrabElement(AProjectElement* PE);
+	UFUNCTION(BlueprintCallable)
+	ABuildingElement* SpawnElement();
+
+	void GrabElement(ABuildingElement* PE);
 
 	// Place project element.
 	bool PlaceElement();

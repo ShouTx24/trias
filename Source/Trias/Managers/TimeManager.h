@@ -27,7 +27,7 @@ public:
 protected:
 	
 	UPROPERTY(BlueprintReadWrite)
-	float InGameTime = 180;
+	float InGameTime = 120;
 	
 	UPROPERTY(BlueprintReadOnly)
 	bool bInGameTimeRunning = true;

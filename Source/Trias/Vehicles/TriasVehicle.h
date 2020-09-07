@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
-#include "InteractiveInterface.h"
+#include "../Interfaces/InteractiveInterface.h"
 #include "Engine/World.h"
 #include "TriasVehicle.generated.h"
 

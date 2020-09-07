@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Item.h"
-#include "TriasGameState.h"
+#include "../Items/Item.h"
+#include "../Game Managment/TriasGameState.h"
 #include "InventoryManager.generated.h"
 
 

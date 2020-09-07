@@ -1,17 +1,16 @@
 // Dactyl Games, all rights reserved.
 
 
-#include "ProjectElement.h"
+#include "BuildingElement.h"
 #include "PlayerC.h"
 #include "UObject/ConstructorHelpers.h"
-#include "Components/SphereComponent.h"
 
-AProjectElement::AProjectElement()
+ABuildingElement::ABuildingElement()
 {
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Meshes/Placeholders/Placeholder_groundplatform.Placeholder_groundplatform'"));
 	Name = FName("TestPE");
 	MeshPtr = MeshAsset.Object;
-	UStaticMeshComponent* MeshCMP = CreateDefaultSubobject<UStaticMeshComponent>(FName("Test"));
+	UStaticMeshComponent* MeshCMP = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));
 	MeshCMP->SetStaticMesh(MeshPtr);
 	MeshCMP->SetCollisionProfileName(FName("NoCollision"));
 	RootComponent = MeshCMP;
@@ -20,61 +19,61 @@ AProjectElement::AProjectElement()
 		FString ID = FString::FromInt(i);
 		FName SocketID(ID);
 		USphereComponent* Collision = CreateDefaultSubobject<USphereComponent>(SocketID);
-		Collision->InitSphereRadius(150);
+		Collision->InitSphereRadius(75);
 		Collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		Collision->SetCollisionProfileName(FName("NoCollision"));
 		Collision->AttachTo(MeshCMP, SocketID);
 	}
 	//	MeshCMP->AttachTo(RootComponent);
-	Status = AvailableStand;
+	Status = ProjectedElementStatus::Valid;
 }
-ProjectElementStatus AProjectElement::GetPE_Status()
+ProjectedElementStatus ABuildingElement::GetStatus()
 {
 	return Status;
 }
 
-FName AProjectElement::GetPE_Name()
+FName ABuildingElement::GetName()
 {
 	return Name;
 }
 
-UStaticMesh* AProjectElement::GetPE_Mesh()
+UStaticMesh* ABuildingElement::GetMesh()
 {
 	return MeshPtr;
 }
 
-void AProjectElement::Interact_Implementation()
+void ABuildingElement::Interact_Implementation()
 {
 	APlayerC* Player = nullptr;
 	Player = Cast<APlayerC>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	
+
 	switch (Status)
 	{
-		case AvailableStand:
-		{
-			Player->GetBuildingManagerComponent()->PlaceElement();
-			GLog->Log("AvaibleStand");
-			break;
-		}
-		case NonAvailableStand:
-		{
-			GLog->Log("NonAvaibleStand");
-			break;
-		}
-		case Stand:
-		{
-			GLog->Log("Stand");
-			break;
-		}
-		default:
-		{
-			GLog->Log("default");
-			break;
-		}
+	case ProjectedElementStatus::Valid:
+	{
+		Player->GetBuildingManagerComponent()->PlaceElement();
+		GLog->Log("Valid");
+		break;
+	}
+	case ProjectedElementStatus::NonValid:
+	{
+		GLog->Log("NonValid");
+		break;
+	}
+	case ProjectedElementStatus::Standing:
+	{
+		GLog->Log("Standing");
+		break;
+	}
+	default:
+	{
+		GLog->Log("default");
+		break;
+	}
 	}
 }
 
-void AProjectElement::GiveMaterial(AItem*)
+void ABuildingElement::GiveMaterial(AItem*)
 {
 	;
 }

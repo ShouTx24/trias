@@ -6,16 +6,16 @@
 #include "GameFramework/Character.h"
 #include "Components/InputComponent.h"
 #include "Engine/World.h"
-#include "Item.h"
+#include "Items/Item.h"
 #include "GameFramework/PlayerController.h"
-#include "TriasGameInstance.h"
-#include "TriasGameState.h"
-#include "InteractiveInterface.h"
+#include "Game Managment/TriasGameInstance.h"
+#include "Game Managment/TriasGameState.h"
+#include "Interfaces/InteractiveInterface.h"
 #include "Camera/PlayerCameraManager.h"
-#include "BuildingManger.h"
-#include "SkillManager.h"
-#include "InventoryManager.h"
-#include "TriasVehicle.h"
+#include "Managers/BuildingManager.h"
+#include "Managers/SkillManager.h"
+#include "Managers/InventoryManager.h"
+#include "Vehicles/TriasVehicle.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/Public/CollisionQueryParams.h"
 #include "PlayerC.generated.h"
@@ -43,7 +43,7 @@ public:
 	ATriasGameState* TGS = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
-	UBuildingManger* BuildingManager = nullptr;
+	UBuildingManager* BuildingManager = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
 	USkillManager* SkillManager = nullptr;
@@ -61,7 +61,7 @@ public:
 	ATriasVehicle* Vehicle;
 
 	UFUNCTION()
-	UBuildingManger* GetBuildingManagerComponent();
+	UBuildingManager* GetBuildingManagerComponent();
 	
 	////Physiology
 	///Health
@@ -116,7 +116,7 @@ public:
 	void StopJumping();
 	
 	bool bCrouching = false;
-	void Crouch();
+	void TurnCrouching();
 
 	bool bSprinting = false;
 	void Sprint();

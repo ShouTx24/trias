@@ -3,50 +3,47 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InteractiveInterface.h"
-#include "Item.h"
+#include "../Interfaces/InteractiveInterface.h"
+#include "../Items/Item.h"
 #include "Engine/StaticMesh.h"
-#include "ProjectElement.generated.h"
-
-/**
- * 
- */
+#include "Components/SphereComponent.h"
+#include "BuildingElement.generated.h"
 
 class UBuildingManager;
 
 UENUM()
-enum ProjectElementStatus 
-{ 
-	NonAvailableStand, 
-	AvailableStand, 
-	Stand, 
-	Materialised 
+enum class ProjectedElementStatus
+{
+	Valid,
+	NonValid,
+	Standing,
+	Done
 };
 
 UCLASS()
-class TRIAS_API AProjectElement : public AActor, public IInteractiveInterface
-{	
+class TRIAS_API ABuildingElement : public AActor, public IInteractiveInterface
+{
 	GENERATED_BODY()
 
 public:
-	
-	AProjectElement();
-	
+
+	ABuildingElement();
+
 	// Status of PE
-	ProjectElementStatus Status = NonAvailableStand;
-	
+	ProjectedElementStatus Status = ProjectedElementStatus::Valid;
+
 	FName Name;
 	UStaticMesh* MeshPtr;
 
 	// Get status of PE
 	UFUNCTION(BlueprintCallable)
-	ProjectElementStatus GetPE_Status();
+	ProjectedElementStatus GetStatus();
 
 	UFUNCTION(BlueprintCallable)
-	FName GetPE_Name();
+	FName GetName();
 
 	UFUNCTION(BlueprintCallable)
-	UStaticMesh* GetPE_Mesh();
+	UStaticMesh* GetMesh();
 
 	// Interact basing on status
 	virtual void Interact_Implementation() override;

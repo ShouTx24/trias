@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
-#include "Item.h"
+#include "../Items/Item.h"
 #include "GameplayTagContainer.h"
 #include "TriasGameState.generated.h"
 
