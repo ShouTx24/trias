@@ -34,7 +34,8 @@ public:
 
 	FName Name;
 	UStaticMesh* MeshPtr;
-
+	UStaticMeshComponent* MeshComponent;
+	
 	// Get status of PE
 	UFUNCTION(BlueprintCallable)
 	ProjectedElementStatus GetStatus();
@@ -44,6 +45,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	UStaticMesh* GetMesh();
+
+	UFUNCTION(BlueprintCallable)
+	void SetMesh(UStaticMesh* Mesh);
+
+	// Findout where object should snap to
+	virtual FVector ReallocateElementToSocket(FHitResult Hit);
 
 	// Interact basing on status
 	virtual void Interact_Implementation() override;

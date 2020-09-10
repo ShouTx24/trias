@@ -36,7 +36,7 @@ public:
 	// Spawns UI to choose build element & spawn projectile.
 
 	UFUNCTION(BlueprintCallable)
-	ABuildingElement* SpawnElement();
+	ABuildingElement* SpawnElement(TSubclassOf<ABuildingElement> Element);
 
 	void GrabElement(ABuildingElement* PE);
 

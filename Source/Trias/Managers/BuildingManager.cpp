@@ -31,19 +31,19 @@ void UBuildingManager::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 		if (Hit.GetComponent() && Hit.GetComponent()->GetOwner()->GetClass()->IsChildOf<ABuildingElement>())
 		{
 			Line = Hit.GetComponent()->GetSocketLocation(FName(Hit.GetComponent()->GetName()));
+			Line -= Cast<ABuildingElement>(Hit.GetActor())->ReallocateElementToSocket(Hit);
 		}
 		PhysicsHandleComponent->GetGrabbedComponent()->SetWorldLocation(Line);
 	}
 }
 
-ABuildingElement* UBuildingManager::SpawnElement()
+ABuildingElement* UBuildingManager::SpawnElement(TSubclassOf<ABuildingElement> Element)
 {
 	UWorld* World = GetWorld();
 	if (!World) return nullptr;
-
-	ABuildingElement* PE = World->SpawnActor<ABuildingElement>();
-	GrabElement(PE);
-	return PE;
+	auto PE = World->SpawnActor(Element.Get());
+	GrabElement(Cast<ABuildingElement>(PE));
+	return Cast<ABuildingElement>(PE);
 }
 
 void UBuildingManager::GrabElement(ABuildingElement* PE)

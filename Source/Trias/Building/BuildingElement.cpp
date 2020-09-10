@@ -10,10 +10,10 @@ ABuildingElement::ABuildingElement()
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Meshes/Placeholders/Placeholder_groundplatform.Placeholder_groundplatform'"));
 	Name = FName("TestPE");
 	MeshPtr = MeshAsset.Object;
-	UStaticMeshComponent* MeshCMP = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));
-	MeshCMP->SetStaticMesh(MeshPtr);
-	MeshCMP->SetCollisionProfileName(FName("NoCollision"));
-	RootComponent = MeshCMP;
+	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));
+	MeshComponent->SetStaticMesh(MeshPtr);
+	MeshComponent->SetCollisionProfileName(FName("NoCollision"));
+	RootComponent = MeshComponent;
 	for (int i = 0; i < 4; i++)
 	{
 		FString ID = FString::FromInt(i);
@@ -22,7 +22,7 @@ ABuildingElement::ABuildingElement()
 		Collision->InitSphereRadius(75);
 		Collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		Collision->SetCollisionProfileName(FName("NoCollision"));
-		Collision->AttachTo(MeshCMP, SocketID);
+		Collision->AttachTo(MeshComponent, SocketID);
 	}
 	//	MeshCMP->AttachTo(RootComponent);
 	Status = ProjectedElementStatus::Valid;
@@ -40,6 +40,21 @@ FName ABuildingElement::GetName()
 UStaticMesh* ABuildingElement::GetMesh()
 {
 	return MeshPtr;
+}
+
+void ABuildingElement::SetMesh(UStaticMesh* Mesh)
+{
+	MeshPtr = Mesh;
+	MeshComponent->SetStaticMesh(MeshPtr);
+}
+
+FVector ABuildingElement::ReallocateElementToSocket(FHitResult Hit)
+{
+	FVector Allocate = Hit.GetActor()->GetActorLocation();
+	Allocate -= Hit.GetComponent()->GetComponentLocation();
+	Allocate.Z += 200;
+	GLog->Log(Allocate.ToString());
+	return Allocate;
 }
 
 void ABuildingElement::Interact_Implementation()
