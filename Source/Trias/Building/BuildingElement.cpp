@@ -64,27 +64,16 @@ void ABuildingElement::Interact_Implementation()
 
 	switch (Status)
 	{
-	case ProjectedElementStatus::Valid:
-	{
-		Player->GetBuildingManagerComponent()->PlaceElement();
-		GLog->Log("Valid");
-		break;
-	}
-	case ProjectedElementStatus::NonValid:
-	{
-		GLog->Log("NonValid");
-		break;
-	}
-	case ProjectedElementStatus::Standing:
-	{
-		GLog->Log("Standing");
-		break;
-	}
-	default:
-	{
-		GLog->Log("default");
-		break;
-	}
+		case ProjectedElementStatus::Standing:
+		{
+			GLog->Log("Standing");
+			break;
+		}
+		default:
+		{
+			GLog->Log("default");
+			break;
+		}
 	}
 }
 
