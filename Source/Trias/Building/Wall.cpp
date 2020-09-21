@@ -5,20 +5,15 @@
 AWall::AWall()
 {
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Meshes/Placeholders/Placeholder_Wall.Placeholder_Wall'"));
-	Name = FName("TestWall");
-	MeshPtr = MeshAsset.Object;
-	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("WallStaticMesh"));
-	MeshComponent->SetStaticMesh(MeshPtr);
-	MeshComponent->SetCollisionProfileName(FName("NoCollision"));
-	RootComponent = MeshComponent;
-	//	MeshCMP->AttachTo(RootComponent);
-	Status = ProjectedElementStatus::Valid;
+	MeshComponent->SetStaticMesh(MeshAsset.Object);
+	SetupSocketCollision();
 }
 FVector AWall::ReallocateElementToSocket(FHitResult Hit)
 {
-	FVector Allocate = Hit.GetActor()->GetActorLocation();
-	Allocate -= Hit.GetComponent()->GetComponentLocation();
-	Allocate.Z += 200;
-	GLog->Log("Wall Alocation");
+	FVector Allocate(0, 0, -150);
+	FVector Result = Hit.GetComponent()->GetComponentLocation();
+	Result.Z -= 100;
+	Result -= Hit.GetComponent()->GetOwner()->GetActorLocation();
+	this->SetActorRotation(Result.Rotation());
 	return Allocate;
 }

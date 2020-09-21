@@ -33,7 +33,6 @@ public:
 	ProjectedElementStatus Status = ProjectedElementStatus::Valid;
 
 	FName Name;
-	UStaticMesh* MeshPtr;
 	UStaticMeshComponent* MeshComponent;
 	
 	// Get status of PE
@@ -59,4 +58,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void GiveMaterial(AItem* Item);
 
+	UFUNCTION(BlueprintCallable)
+	void SetupSocketCollision();
 };

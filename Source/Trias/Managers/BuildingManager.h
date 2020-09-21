@@ -38,11 +38,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 	ABuildingElement* SpawnElement(TSubclassOf<ABuildingElement> Element);
 
+	UClass* ClassPointer;
+	
 	void GrabElement(ABuildingElement* PE);
 
-	// Place project element.
+
+	// Place projected element.
 	bool PlaceElement();
-	// Give project element a material.
+	// Give projected element a material.
 
 	// Materialised project element.
+	
+	// Cancel placement
+	void CancelPlacement();
 };

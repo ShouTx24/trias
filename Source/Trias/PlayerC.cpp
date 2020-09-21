@@ -200,7 +200,10 @@ void APlayerC::UseItem()
 void APlayerC::AltUseItem()
 {
 	int ActiveItem = InventoryManager->GetActiveItemIndex();
-
+	if (BuildingManager->PhysicsHandleComponent->GetGrabbedComponent())
+	{
+		BuildingManager->CancelPlacement();
+	}
 	if (InventoryManager->Inventory.IsValidIndex(ActiveItem)) InventoryManager->Inventory[ActiveItem]->AltUse();
 	else GLog->Log("Block");
 }

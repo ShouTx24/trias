@@ -31,9 +31,10 @@ void UBuildingManager::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 		if (Hit.GetComponent() && Hit.GetComponent()->GetOwner()->GetClass()->IsChildOf<ABuildingElement>())
 		{
 			Line = Hit.GetComponent()->GetSocketLocation(FName(Hit.GetComponent()->GetName()));
-			Line -= Cast<ABuildingElement>(Hit.GetActor())->ReallocateElementToSocket(Hit);
+			Line -= Cast<ABuildingElement>(PhysicsHandleComponent->GetGrabbedComponent()->GetOwner())->ReallocateElementToSocket(Hit);
 		}
 		PhysicsHandleComponent->GetGrabbedComponent()->SetWorldLocation(Line);
+		
 	}
 }
 
@@ -41,6 +42,7 @@ ABuildingElement* UBuildingManager::SpawnElement(TSubclassOf<ABuildingElement> E
 {
 	UWorld* World = GetWorld();
 	if (!World) return nullptr;
+	ClassPointer = Element.Get();
 	auto PE = World->SpawnActor(Element.Get());
 	GrabElement(Cast<ABuildingElement>(PE));
 	return Cast<ABuildingElement>(PE);
@@ -56,7 +58,6 @@ bool UBuildingManager::PlaceElement()
 {
 	if (PhysicsHandleComponent->GetGrabbedComponent())
 	{
-		GLog->Log("Releasing Object");
 		PhysicsHandleComponent->GetGrabbedComponent()->SetCollisionProfileName(FName("BlockAll"));
 		TArray<USceneComponent*> Children = PhysicsHandleComponent->GetGrabbedComponent()->GetAttachChildren();
 		for (USceneComponent* Child : Children)
@@ -64,12 +65,16 @@ bool UBuildingManager::PlaceElement()
 			Cast<USphereComponent>(Child)->SetCollisionProfileName(FName("IgnoreOnlyPawn"));
 		}
 		PhysicsHandleComponent->ReleaseComponent();
+		SpawnElement(ClassPointer);
 		return true;
 	}
-	else
-	{
-		GLog->Log("Can not release object.");
-		return false;
-	}
+	else return false;
+}
+
+void UBuildingManager::CancelPlacement()
+{
+	auto GrabbedComponent = PhysicsHandleComponent->GetGrabbedComponent()->GetOwner();
+	PhysicsHandleComponent->ReleaseComponent();
+	GrabbedComponent->Destroy();
 }
 
