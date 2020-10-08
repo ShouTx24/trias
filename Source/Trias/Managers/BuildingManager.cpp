@@ -27,6 +27,8 @@ void UBuildingManager::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	{
 		FHitResult Hit;
 		FVector Line;
+		PhysicsHandleComponent->GetGrabbedComponent()->SetRelativeRotation(GetOwner()->GetActorRotation());
+
 		TGI->GetPlayerLookingAt(Hit, 450, Line);
 		if (Hit.GetComponent() && Hit.GetComponent()->GetOwner()->GetClass()->IsChildOf<ABuildingElement>())
 		{
