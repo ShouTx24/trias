@@ -5,7 +5,7 @@
 
 AFoundation::AFoundation()
 {
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Meshes/Placeholders/Placeholder_groundplatform.Placeholder_groundplatform'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Building/Placeholder_groundplatform.Placeholder_groundplatform'"));
 	MeshComponent->SetStaticMesh(MeshAsset.Object);
 	SetupSocketCollision();
 }

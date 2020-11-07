@@ -4,7 +4,7 @@
 #include "Wall.h"
 AWall::AWall()
 {
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Meshes/Placeholders/Placeholder_Wall.Placeholder_Wall'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Building/Placeholder_Wall.Placeholder_Wall'"));
 	MeshComponent->SetStaticMesh(MeshAsset.Object);
 	SetupSocketCollision();
 }
