@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "Tools.h"
 #include "../Game Managment/TriasGameInstance.h"
-#include "VoxelTools/VoxelSphereTools.h"
-#include "VoxelWorld.h"
+//#include "VoxelTools/VoxelSphereTools.h"
+//#include "VoxelWorld.h"
 #include "Shovel.generated.h"
 
 /**
@@ -23,5 +23,5 @@ class TRIAS_API AShovel : public ATools
 
 	UTriasGameInstance* TGI = nullptr;
 	
-	AVoxelWorld* VoxelWorld = nullptr;
+	//AVoxelWorld* VoxelWorld = nullptr;
 };

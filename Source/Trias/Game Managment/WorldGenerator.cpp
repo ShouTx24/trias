@@ -5,7 +5,7 @@
 
 void UWorldGenerator::Generate()
 {
-	if (VoxelWorld) VoxelWorld->CreateWorld();
+	//if (VoxelWorld) VoxelWorld->CreateWorld();
 	FVector StartLocation, ActualLocation = FVector(0.f, 0.f, 0.f);
 	int sign = 1;
 	for (int y = 0; y < WorldSize; y++)

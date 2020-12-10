@@ -8,7 +8,7 @@
 #include "TriasGameState.h"
 #include "GameplayTagContainer.h"
 #include "Engine/World.h"
-#include "VoxelWorld.h"
+//#include "VoxelWorld.h"
 #include "WorldGenerator.generated.h"
 
 /**
@@ -25,8 +25,8 @@ class TRIAS_API UWorldGenerator : public UActorComponent
 	int BiomeHexRadius = 20;
 	UPROPERTY(EditAnywhere)
 	float InnerHexRadius = 1000.f;
-	UPROPERTY(EditAnywhere)
-	AVoxelWorld* VoxelWorld = nullptr;
+	//UPROPERTY(EditAnywhere)
+	//AVoxelWorld* VoxelWorld = nullptr;
 
 	UFUNCTION(BlueprintCallable)
 	void Generate();

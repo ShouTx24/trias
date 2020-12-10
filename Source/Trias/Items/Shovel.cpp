@@ -1,6 +1,5 @@
 // Dactyl Games, all rights reserved.
 
-
 #include "Shovel.h"
 
 void AShovel::BeginPlay()
@@ -15,13 +14,13 @@ void AShovel::Use()
 	FHitResult OUT Hit;
 	FVector Line;
 	TGI->GetPlayerLookingAt(Hit, 400, Line);
-	if (Cast<AVoxelWorld>(Hit.GetActor()))
-	{
-		VoxelWorld = Cast<AVoxelWorld>(Hit.GetActor());
-		UVoxelSphereTools::RemoveSphere(VoxelWorld, Hit.ImpactPoint, 35, true);
-		UVoxelSphereTools::SmoothSphere(VoxelWorld, Hit.ImpactPoint, 35 * 1.5, 20, true);
-	}
-	else return;
+	//if (Cast<AVoxelWorld>(Hit.GetActor()))
+	//{
+	//	VoxelWorld = Cast<AVoxelWorld>(Hit.GetActor());
+	//	UVoxelSphereTools::RemoveSphere(VoxelWorld, Hit.ImpactPoint, 35, true);
+	//	UVoxelSphereTools::SmoothSphere(VoxelWorld, Hit.ImpactPoint, 35 * 1.5, 20, true);
+	//}
+	//else return;
 }
 
 void AShovel::AltUse()
@@ -30,10 +29,10 @@ void AShovel::AltUse()
 	FHitResult OUT Hit;
 	FVector Line;
 	TGI->GetPlayerLookingAt(Hit, 400, Line);
-	if (Cast<AVoxelWorld>(Hit.GetActor()))
-	{
-		VoxelWorld = Cast<AVoxelWorld>(Hit.GetActor());
-		UVoxelSphereTools::SmoothSphere(VoxelWorld, Hit.ImpactPoint, 35 * 1.5, 20, true);
-	}
-	else return;
+	//if (Cast<AVoxelWorld>(Hit.GetActor()))
+	//{
+	//	VoxelWorld = Cast<AVoxelWorld>(Hit.GetActor());
+	//	UVoxelSphereTools::SmoothSphere(VoxelWorld, Hit.ImpactPoint, 35 * 1.5, 20, true);
+	//}
+	//else return;
 }
